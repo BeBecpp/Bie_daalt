@@ -34,6 +34,8 @@ DEFAULT_DURATION = 8.0
 
 
 def extra_args(p):
+    p.add_argument("--hit", type=float, default=None,
+                   help="second at which the watch reads 16:17:00 (sync to narration)")
     p.add_argument("--manuscript-image", default=None,
                    help="rights-cleared scan to use instead of the procedural abstract manuscript")
 
@@ -47,11 +49,12 @@ def main():
 
     # ---- beats (seconds). Everything scales with D. -------------------------
     s = D / DEFAULT_DURATION
+    hit = args.hit if args.hit else 5.5 * s           # clock reads exactly 16:17:00
+    k = hit / 5.5
     B = {
-        "light_on": 0.15 * s, "light_full": 1.6 * s,
-        "glide_mid": 2.7 * s, "turn": 4.3 * s,
-        "hit": 5.5 * s,                       # clock reads exactly 16:17:00
-        "title": 5.75 * s, "end": D,
+        "light_on": 0.15 * min(s, 1.5), "light_full": 1.6 * min(s, 1.5),
+        "glide_mid": 2.7 * k, "turn": 4.3 * k,
+        "hit": hit, "title": hit + 0.25 * k, "end": D,
     }
     F = {k: C.sec(v) for k, v in B.items()}
     F["end"] = n_frames
@@ -235,6 +238,7 @@ def main():
                    (0, -3.55, 0), color="#E8D6B7", strength=1.0)
     rule = ts.rule("Rule", 3.4, (0, -3.22, 0), color="#C8A56C", strength=1.1)
     ft, fe = F["title"], F["end"]
+    s = min(s, 1.4)   # title animation speed: do not stretch with long shots
     TitleScene.fade(big, ft, ft + 0.7 * C.FPS * s)
     C.key(big, "location", ft, (0, -2.95, 0))
     C.key(big, "location", ft + 1.6 * C.FPS * s, (0, -2.75, 0))

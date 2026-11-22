@@ -21,9 +21,9 @@ from lib.shot import Shot  # noqa: E402
 
 
 def main():
-    sh = Shot("07", "RightsLimits", 40.0, world_hex="#0c0b0a", world_strength=0.2)
+    sh = Shot("07", "RightsLimits", 35.0, world_hex="#0c0b0a", world_strength=0.2)
     t, END = sh.t, sh.n_frames
-    A0, B0, C0, D0 = 1, t(9.0), t(20.0), t(31.0)
+    A0, B0, C0, D0 = 1, t(5.4), t(12.4), t(18.4)
     floor = P.box("Floor", (60, 60, 0.1), (0, 0, -0.05), None, M.flat("Floor", "#151311", 0.25, coat=0.6), bevel=0)
 
     # A: two-sided slab
@@ -42,8 +42,8 @@ def main():
     back.rotation_euler = (math.radians(90), 0, math.radians(180))
     back.data.materials.append(crimson)
     back.parent = slab
-    C.key(slab, "rotation_euler", t(3.0), 0.0, index=2)
-    C.key(slab, "rotation_euler", t(5.0), math.pi, index=2)
+    C.key(slab, "rotation_euler", t(1.6), 0.0, index=2)
+    C.key(slab, "rotation_euler", t(3.4), math.pi, index=2)
     C.key(slab, "location", B0 - 6, (0, -2.5, 1.4))
     C.key(slab, "location", B0 + int(1.2 * sh.fps), (0, 4, 9.0))   # rises out of frame for the next beat
     C.set_interpolation(slab, "BEZIER", handle="AUTO_CLAMPED")
@@ -98,7 +98,7 @@ def main():
     sh.cut("A", 1, cam)
 
     sh.titles.band(t(1.0), END)
-    sh.card("A1", "Хаант засгаас — бүгд найрамдах засагт", 0.5, -3.3, t(5.2), B0 - 2, font="serif_regular")
+    sh.card("A1", "Хаант засгаас — бүгд найрамдах засагт", 0.5, -3.3, t(2.0), B0 - 2, font="serif_regular")
     sh.card("B1", "34-р зүйл", 0.32, -2.85, B0 + int(1.2 * sh.fps), C0 - 2, font="sans", color="#C8A56C",
             spacing=1.15)
     sh.card("B2", "18 нас хүрсэн эрэгтэй, эмэгтэй иргэд — тодорхой нөхцөлөөр", 0.42, -3.45,

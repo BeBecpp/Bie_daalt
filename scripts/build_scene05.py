@@ -20,9 +20,9 @@ from lib.shot import Shot  # noqa: E402
 
 
 def main():
-    sh = Shot("05", "Decision1924", 24.0)
+    sh = Shot("05", "Decision1924", 27.0)
     t, END = sh.t, sh.n_frames
-    A0, B0, C0 = 1, t(8.5), t(16.5)
+    A0, B0, C0 = 1, t(9.4), t(17.6)
     desk = S.desk_set(sh.args.quality, sh.fonts, origin=(0, 0, 0), with_watch=False)
     mats = [desk["paper_mat"], S.manuscript_material(sh.args.quality, seed=1925, name="ParchmentB")]
     drafts = P.page_stack("Draft", 8, (0.21, 0.30), mats, (0.02, -0.02, 0.0085),

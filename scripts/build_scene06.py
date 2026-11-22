@@ -33,7 +33,7 @@ from lib import props as P           # noqa: E402
 from lib import sets as S            # noqa: E402
 from lib.overlay import TitleScene, add_counter, build_compositor, install_counter_handler  # noqa: E402
 
-DEFAULT_DURATION = 46.0
+DEFAULT_DURATION = 34.0     # fitted to the 29.07 s narration (lead 1.5 s)
 
 
 def extra_args(p):
@@ -49,9 +49,9 @@ def main():
     C.setup_render(scene, args, n_frames, samples_preview=24, samples_final=128)
     s = D / DEFAULT_DURATION
     t = lambda sec: C.sec(sec * s)          # beat (at 46 s) -> frame
-    A0, B0, C0, D0 = 1, t(13.8), t(21.2), t(33.1)
-    HIT = t(19.0)
-    TITLE = t(39.5)
+    A0, B0, C0, D0 = 1, t(11.6), t(16.2), t(21.5)
+    HIT = t(15.6)        # "...дөрвөн цаг арван долоон минут" ends at ~15.9 s
+    TITLE = t(25.0)      # sentence 7: Бүгд Найрамдах Монгол Ард Улс
     END = n_frames
 
     world = bpy.data.worlds.new("S06_World")
@@ -86,10 +86,10 @@ def main():
             C.key(pg, "hide_render", f, hide)
             C.key(pg, "hide_viewport", f, hide)
         C.set_interpolation(pg, "CONSTANT")
-    turn_start = C0 + int(1.2 * C.FPS * s)
-    turn_span = (D0 - turn_start) - int(1.0 * C.FPS * s)
+    turn_start = C0 + int(0.8 * C.FPS * s)
+    turn_span = (D0 - turn_start) - int(0.8 * C.FPS * s)
     step = turn_span / len(pages)
-    turn_len = max(8, int(0.9 * C.FPS * s))
+    turn_len = max(8, int(0.6 * C.FPS * s))
     n = len(pages)
     for i, pg in enumerate(pages):
         f0 = int(turn_start + i * step)
@@ -107,7 +107,7 @@ def main():
 
     # ------------------------------------------------------------ figures light up
     figs = sorted(hall["figures"], key=lambda o: (-o.location.y, abs(o.location.x - 30)))
-    lit0, lit1 = t(2.0), t(11.0)
+    lit0, lit1 = t(4.0), t(11.0)
     for i, fig in enumerate(figs):
         fo = int(lit0 + (lit1 - lit0) * i / (len(figs) - 1))
         C.key(fig, "color", max(1, fo - 8), (0.0, 0.0, 0.0, 1.0))

@@ -30,7 +30,9 @@ class TitleScene:
         self.scene = sc
         sc.render.engine = main_scene.render.engine
         if sc.render.engine == "CYCLES":
-            sc.cycles.samples = 8 if main_scene.frame_step > 1 else 16
+            sc.cycles.samples = 4 if (main_scene.frame_step > 1 or main_scene.get("fast_final")) else 16
+            sc.cycles.use_adaptive_sampling = True
+            sc.cycles.max_bounces = 1
             sc.cycles.use_denoising = False
             sc.cycles.device = "CPU"
         sc.render.resolution_x = main_scene.render.resolution_x

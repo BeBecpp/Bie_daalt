@@ -25,9 +25,9 @@ from lib.shot import Shot  # noqa: E402
 
 
 def main():
-    sh = Shot("02", "Foundation1206", 31.0, samples_preview=16)
+    sh = Shot("02", "Foundation1206", 27.0, samples_preview=16)
     t, sc = sh.t, sh.scene
-    A0, P0, B0, C0, END = 1, t(9.0), t(14.0), t(22.5), sh.n_frames
+    A0, P0, B0, C0, END = 1, t(4.6), t(8.8), t(17.5), sh.n_frames   # synced to narration (lead 3.0 s)
     S.sky_world(sc, sun_elev_deg=3.5, sun_rot_deg=100, strength=0.35)
     steppe = S.steppe_set(grass_center=(0, 0), grass_size=60, grass_density=14, hills=12.0)
     gz = steppe["ground_z"]
@@ -131,14 +131,14 @@ def main():
     sh.label(f_out=P0)
     sh.label(f_in=B0 + 4)
     ts.band(t(1.0), END)
-    sh.card("Year", "1206", 1.25, -2.85, t(2.0), P0 - 2)
-    sh.card("State", "ИХ МОНГОЛ УЛС", 0.36, -3.75, t(3.0), P0 - 2, font="sans", color="#C8A56C", spacing=1.25)
+    sh.card("Year", "1206", 1.25, -2.85, t(1.6), P0 - 2)
+    sh.card("State", "ИХ МОНГОЛ УЛС", 0.36, -3.75, t(2.4), P0 - 2, font="sans", color="#C8A56C", spacing=1.25)
     sh.card("Khuraldai", "ИХ ХУРАЛДАЙ", 0.36, -2.95, B0 + int(0.6 * sh.fps), C0 - 2, font="sans",
             color="#C8A56C", spacing=1.25)
     sh.card("KhuraldaiNote", "Төрийн чухал асуудлыг хэлэлцдэг байсан ч дээд эрх хаанд төвлөрч байв",
-            0.30, -3.65, B0 + int(1.4 * sh.fps), C0 - 2, font="sans_regular")
+            0.30, -3.65, t(11.7), C0 - 2, font="sans_regular")
     sh.card("Yassa", "«Их засаг» — бүрэн эх нь өнөөдөр уламжлагдаагүй", 0.40, -3.5,
-            C0 + int(1.2 * sh.fps), END + 40, font="serif_regular")
+            t(21.0), END + 40, font="serif_regular")
     sh.finish(fade_in=(1, t(1.2)))
 
 

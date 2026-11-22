@@ -50,6 +50,8 @@ def parse_args(extra=None):
     p.add_argument("--samples", type=int, default=None, help="override render samples")
     p.add_argument("--out", default=None, help="output folder for frames")
     p.add_argument("--no-save", action="store_true", help="do not write the .blend file")
+    p.add_argument("--fast-final", action="store_true",
+                   help="final 1080p/24fps with lean sampling (4 spp + OIDN high quality), every frame rendered")
     p.add_argument("--rough", action="store_true",
                    help="rough-cut profile: 4 samples, fast denoise, low bounces, every 2nd frame (12 fps)")
     if extra:
@@ -122,8 +124,10 @@ def setup_render(scene, args, frame_end, samples_preview=24, samples_final=96):
 
     _set_engine(scene, args.engine)
     rough = getattr(args, "rough", False)
-    samples = args.samples or (4 if rough else (samples_preview if args.quality == "preview" else samples_final))
+    fast = getattr(args, "fast_final", False)
+    samples = args.samples or (4 if (rough or fast) else (samples_preview if args.quality == "preview" else samples_final))
     scene.frame_step = 2 if rough else 1
+    scene["fast_final"] = bool(fast)
     if scene.render.engine == "CYCLES":
         c = scene.cycles
         c.device = "CPU"
@@ -144,6 +148,22 @@ def setup_render(scene, args, frame_end, samples_preview=24, samples_final=96):
         c.caustics_refractive = False
         c.blur_glossy = 1.0
         scene.render.use_persistent_data = True
+        if fast:
+            c.adaptive_threshold = 0.05
+            c.max_bounces, c.diffuse_bounces, c.glossy_bounces = 4, 1, 2
+            c.transmission_bounces, c.transparent_max_bounces = 3, 6
+            for attr, val in (("denoising_prefilter", "ACCURATE"), ("denoising_quality", "BALANCED"),
+                              ("use_light_tree", True)):
+                try:
+                    setattr(c, attr, val)
+                except (AttributeError, TypeError):
+                    pass
+            scene.render.use_simplify = True
+            scene.render.simplify_subdivision_render = 2
+            try:
+                c.texture_limit_render = "2048"
+            except (AttributeError, TypeError):
+                pass
         if rough:
             c.adaptive_threshold = 0.08
             c.max_bounces, c.diffuse_bounces, c.glossy_bounces = 3, 1, 2
@@ -313,8 +333,27 @@ def save_blend(path):
     print(f"[1617] saved {path}")
 
 
+def optimize_fast(scene):
+    """Fast-final savings that do not change the look much: no subsurface on
+    paper, half the dust instances."""
+    for mat in bpy.data.materials:
+        if mat.use_nodes:
+            for n in mat.node_tree.nodes:
+                if n.bl_idname == "ShaderNodeBsdfPrincipled" and "Subsurface Weight" in n.inputs:
+                    n.inputs["Subsurface Weight"].default_value = 0.0
+    for ng in bpy.data.node_groups:
+        for n in getattr(ng, "nodes", []):
+            if n.bl_idname == "GeometryNodePoints":
+                n.inputs["Count"].default_value = max(50, n.inputs["Count"].default_value // 2)
+
+
 def render_frames(scene, out_dir, frames=None, stills=None):
     ensure_dirs(out_dir)
+    if scene.get("fast_final"):
+        optimize_fast(scene)
+    # resumable: existing frames are skipped, placeholders mark frames in progress
+    scene.render.use_overwrite = False
+    scene.render.use_placeholder = True
     if stills:
         for f in stills:
             scene.frame_set(f)

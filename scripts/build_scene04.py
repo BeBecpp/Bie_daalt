@@ -17,7 +17,7 @@ from lib.shot import Shot  # noqa: E402
 
 
 def main():
-    sh = Shot("04", "Change1921", 27.0, world_hex="#0f1214", world_strength=0.5)
+    sh = Shot("04", "Change1921", 26.0, world_hex="#0f1214", world_strength=0.5)
     t, END = sh.t, sh.n_frames
     sh.scene.view_settings.look = "AgX - Base Contrast"
     LY.paper_backdrop("Backdrop", 26, 12, (0, 9, 0), tone="#8d949a")
@@ -69,11 +69,11 @@ def main():
 
     sh.label()
     sh.titles.band(t(1.0), END)
-    sh.card("Rev", "1921 · Үндэсний ардчилсан хувьсгал", 0.5, -3.1, t(1.5), t(12))
-    sh.card("Change", "Гадаадын цэргийн эзэрхийллээс ангижрах · шинэ төрийн байгуулал", 0.3, -3.8, t(4), t(12),
+    sh.card("Rev", "1921 · Үндэсний ардчилсан хувьсгал", 0.5, -3.1, t(1.4), t(14.6))
+    sh.card("Change", "Гадаадын цэргийн эзэрхийллээс ангижрах · шинэ төрийн байгуулал", 0.3, -3.8, t(8.3), t(14.6),
             font="sans_regular")
-    sh.card("NotYet", "Гэхдээ хаант засаг тэр даруй халагдсангүй", 0.5, -3.1, t(15), END + 30)
-    sh.card("Bogd", "Богд хаан 1924 он хүртэл төрийн тэргүүн хэвээр байв", 0.32, -3.8, t(16.5), END + 30,
+    sh.card("NotYet", "Гэхдээ хаант засаг тэр даруй халагдсангүй", 0.5, -3.1, t(15.0), END + 30)
+    sh.card("Bogd", "Богд хаан 1924 он хүртэл төрийн тэргүүн хэвээр байв", 0.32, -3.8, t(18.1), END + 30,
             font="sans", color="#C8A56C")
     sh.finish(fade_in=(1, t(1.0)))
 

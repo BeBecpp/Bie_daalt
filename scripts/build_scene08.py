@@ -32,9 +32,9 @@ SOURCES = (
 
 
 def main():
-    sh = Shot("08", "Legacy", 33.0, samples_preview=16)
+    sh = Shot("08", "Legacy", 31.0, samples_preview=16)
     t, sc = sh.t, sh.scene
-    A0, B0, C0, SRC, END = 1, t(12.5), t(23.0), t(28.0), sh.n_frames
+    A0, B0, C0, END = 1, t(4.6), t(17.8), sh.n_frames      # synced to narration (lead 1.2 s)
     bg = S.sky_world(sc, sun_elev_deg=0.5, sun_rot_deg=100, strength=0.35)
     sky = next((n for n in sc.world.node_tree.nodes if n.bl_idname == "ShaderNodeTexSky"), None)
     if sky is not None:
@@ -67,7 +67,8 @@ def main():
         txt.rotation_euler.x = math.radians(90)
         txt.data.materials.append(mat)
         plates.append(txt)
-        f_rise = B0 - int(0.5 * sh.fps) + int(i * 1.1 * sh.fps)
+        # 1206..1924 rise while sentence 2 names them, 1940..1992 with sentence 3
+        f_rise = t((5.0 + i * 1.3) if i < 4 else (11.4 + (i - 4) * 1.6))
         C.key(txt, "location", 1, (x, base_y, z - 14.0))
         C.key(txt, "location", f_rise, (x, base_y, z - 14.0))
         C.key(txt, "location", f_rise + int(1.2 * sh.fps), (x, base_y, z))
@@ -75,7 +76,7 @@ def main():
     rail = P.box("TimelineRail", (spacing * 6 + 6, 0.06, 0.06),
                  (0, base_y + 0.2, gz(0, base_y) + 4.6), None, M.emission("RailGlow", "#C8A56C", 3.0), bevel=0)
     C.key(rail, "scale", B0 - 10, (0.0, 1, 1))
-    C.key(rail, "scale", B0 + int(7.5 * sh.fps), (1.0, 1, 1))
+    C.key(rail, "scale", t(15.5), (1.0, 1, 1))
 
     # desk + manuscript high above the terrain for the closing shot
     desk_o = Vector((0, 0, 400))
@@ -100,26 +101,17 @@ def main():
     sh.cut("C_desk", C0, camC)
 
     ts = sh.titles
-    sh.label(f_out=SRC)
-    ts.band(t(1.0), SRC)
+    sh.label()
+    ts.band(t(1.0), END + 30)
     sh.card("A_Line", "Монголын төрийн түүх нэг өдөр эхэлж, нэг өдөр дуусаагүй", 0.38, -3.55, t(1.5), B0 - 2,
             font="serif_regular")
     sh.card("B_Kicker", "ҮНДСЭН ХУУЛЬ ШИНЭЧЛЭГДСЭН ОНУУД: 1940 · 1960 · 1992", 0.28, -3.7,
-            B0 + int(5.5 * sh.fps), C0 - 2, font="sans", color="#C8A56C", spacing=1.15)
-    sh.card("C_Title", "16:17 — Монгол төрийн түүхэн эргэлт", 0.62, -2.9, C0 + int(0.6 * sh.fps), SRC,
+            t(11.2), C0 - 2, font="sans", color="#C8A56C", spacing=1.15)
+    sh.card("C_Title", "16:17 — Монгол төрийн түүхэн эргэлт", 0.62, -2.9, C0 + int(0.6 * sh.fps), END + 30,
             strength=1.25)
-    sh.card("C_Day", "11 дүгээр сарын 26 · Улс тунхагласны өдөр", 0.34, -3.6, C0 + int(1.3 * sh.fps), SRC,
+    sh.card("C_Day", "11 дүгээр сарын 26 · Улс тунхагласны өдөр", 0.34, -3.6, C0 + int(1.3 * sh.fps), END + 30,
             font="sans", color="#C8A56C", spacing=1.08)
-    # closing source card: black backdrop + bibliography (no narration here)
-    black = ts.rule("SourceBackdrop", 20, (0, 0, -0.6), color="#000000", thickness=12, strength=0.0)
-    TitleScene.fade(black, SRC - int(0.8 * sh.fps), SRC, peak=1.0)
-    from lib import archive as AR
-    arch = "\n".join(["", "Архивын дүрс (Wikimedia Commons, нийтийн өмч):"] + AR.credits_lines())
-    src = ts.text("Sources", SOURCES + arch, sh.fonts["sans_regular"], 0.2, (0, 3.9, 0), color="#E8D6B7",
-                  strength=1.0, halo=0.0)
-    src.data.align_y = "TOP"
-    src.data.space_line = 1.35
-    TitleScene.fade(src, SRC + 4, SRC + int(0.8 * sh.fps), peak=1.0)
+    # (sources and credits now live in build_credits.py)
     sh.finish(fade_in=(1, t(1.5)))
 
 

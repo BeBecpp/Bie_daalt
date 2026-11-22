@@ -22,7 +22,7 @@ def extra(p):
 
 
 def main():
-    sh = Shot("03", "Independence1911", 22.0, extra=extra, world_hex="#1a140e", world_strength=0.4)
+    sh = Shot("03", "Independence1911", 23.0, extra=extra, world_hex="#1a140e", world_strength=0.4)
     t, END = sh.t, sh.n_frames
     LY.paper_backdrop("Backdrop", 16, 9, (0, 6, 0), tone="#b59a72")
     from lib import archive as AR
@@ -86,10 +86,10 @@ def main():
 
     sh.label()
     sh.titles.band(t(1.0), END)
-    sh.card("Date", "1911 оны 12 дугаар сарын 29", 0.55, -3.0, t(4.5), t(14))
-    sh.card("State", "БОГД ХААНТ МОНГОЛ УЛС", 0.34, -3.75, t(5.5), t(14), font="sans", color="#C8A56C",
+    sh.card("Date", "1911 оны 12 дугаар сарын 29", 0.55, -3.0, t(6.8), t(13.6))
+    sh.card("State", "БОГД ХААНТ МОНГОЛ УЛС", 0.34, -3.75, t(7.6), t(13.6), font="sans", color="#C8A56C",
             spacing=1.25)
-    sh.card("Line2", "Тусгаар тогтнолоо сэргээн тунхаглав", 0.46, -3.3, t(14.6), END + 30, font="serif_regular")
+    sh.card("Line2", "Тусгаар тогтнолоо сэргээн тунхаглав", 0.46, -3.3, t(13.9), END + 30, font="serif_regular")
     sh.finish(fade_in=(1, t(1.0)))
 
 
