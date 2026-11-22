@@ -52,11 +52,44 @@ class TitleScene:
         sc.world = world
 
     def text(self, name, body, font, size, location, color="#E8D6B7", strength=1.0,
-             align_x="CENTER", spacing=1.0):
+             align_x="CENTER", spacing=1.0, halo=0.4, plate=0.0):
+        """Text with an optional soft dark halo (several offset copies) so it
+        stays legible over bright parchment as well as the dark desk."""
         t = text_object(name, body, font, size=size, align_x=align_x, location=location,
                         collection=self.scene.collection, spacing=spacing)
         mat = M.overlay_text(f"{name}_Mat", color, strength)
         t.data.materials.append(mat)
+        if halo:
+            hmat = M.overlay_text(f"{name}_HaloMat", "#000000", 0.0)
+            d = size * 0.06
+            for i, (dx, dy) in enumerate(((d, -d), (-d, -d), (d, d), (-d, d), (0, -1.6 * d))):
+                h = text_object(f"{name}_Halo{i}", body, font, size=size, align_x=align_x,
+                                collection=self.scene.collection, spacing=spacing,
+                                location=(dx, dy, -0.05))
+                h.data.materials.append(hmat)
+                h.parent = t
+            t["halo_mat"] = hmat.name
+            t["halo"] = halo
+        if plate:
+            # translucent dark plate sized to the evaluated text bounds
+            dg = self.scene.view_layers[0].depsgraph
+            dg.update()
+            dims = t.evaluated_get(dg).dimensions
+            w = dims.x if dims.x > 0 else len(body) * size * 0.52
+            pad = size * 0.55
+            pm = bpy.data.meshes.new(f"{name}_Plate")
+            x0 = {"LEFT": 0.0, "CENTER": -w / 2, "RIGHT": -w}[align_x] - pad
+            x1 = x0 + w + 2 * pad
+            y0, y1 = -size * 0.62, size * 0.62
+            pm.from_pydata([(x0, y0, -0.1), (x1, y0, -0.1), (x1, y1, -0.1), (x0, y1, -0.1)], [], [(0, 1, 2, 3)])
+            po = bpy.data.objects.new(f"{name}_Plate", pm)
+            self.scene.collection.objects.link(po)
+            po.parent = t
+            pm.materials.append(bpy.data.materials[t["halo_mat"]] if halo else
+                                M.overlay_text(f"{name}_PlateMat", "#000000", 0.0))
+            if not halo:
+                t["halo_mat"] = pm.materials[0].name
+            t["halo"] = plate
         return t
 
     def rule(self, name, width, location, color="#C8A56C", thickness=0.018, strength=1.0):
@@ -79,6 +112,13 @@ class TitleScene:
             sock.default_value = v
             sock.keyframe_insert("default_value", frame=f)
         set_interpolation(nt, "SINE", "EASE_IN_OUT")
+        if "halo_mat" in obj:
+            hnt = bpy.data.materials[obj["halo_mat"]].node_tree
+            hs = hnt.nodes["Opacity"].inputs["Fac"]
+            for f, v in ((f_in, 0.0), (f_full, peak)) + (((f_out, peak), (f_gone, 0.0)) if f_out else ()):
+                hs.default_value = v * obj["halo"]
+                hs.keyframe_insert("default_value", frame=f)
+            set_interpolation(hnt, "SINE", "EASE_IN_OUT")
 
 
 def build_compositor(main, titles_scene, fade_in=(1, 30), vignette=0.55, bloom=0.35):

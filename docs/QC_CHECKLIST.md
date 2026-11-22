@@ -35,6 +35,7 @@
 | 2 | 66, 103, 150 | Dial still black even with a transparent/glossy crystal | Debug render with the crystal hidden showed the dial correctly, so the crystal was the culprit: its solidified shell caused total internal reflection on the inner face. Single-surface crystal, fresnel only on front faces |
 | 3 | 120, 192 | Dial correct (4:17, red inner "16"), but end frame too tight: watch cropped and title overlapping it | Pulled the end camera back and up; aim point below the dial puts the watch in the upper ⅔ |
 | 4–5 | 1, 30, 133, 192 | Framing OK; title fully on the desk; whole watch visible | Approved for full render |
+| Full render, frames 1–53 | 12, 24, 36, 48 | Fade-in, lamp warm-up and glide all correct. **Reconstruction label unreadable over bright parchment** (ivory on ivory) | Stopped the render. Added `plate=` to `TitleScene.text()`: a translucent charcoal plate sized to the evaluated text bounds (halo copies were tried first and were too weak). Kept frames 1–14 (before the label appears) and re-rendered 15–192 |
 
 POC acceptance (from `01_storyboard.md`), all met in the rendered frames:
 real 3D parchment ✔ · animated 16:17 watch ✔ · moving camera ✔ · lights/shadows ✔ ·

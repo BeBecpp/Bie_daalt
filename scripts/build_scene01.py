@@ -225,8 +225,9 @@ def main():
     # ---- titles (modern overlay; Mongolian Cyrillic, Noto, SIL OFL) ------------
     ts = TitleScene(scene, "S01_Titles")
     label = ts.text("ReconLabel", "Уран сайхны сэргээн дүрслэл", fonts["sans_regular"], 0.27,
-                    (-7.35, -4.1, 0), color="#E8D6B7", strength=0.9, align_x="LEFT")
-    TitleScene.fade(label, C.sec(0.6 * s), C.sec(1.4 * s), peak=0.75)
+                    (-7.25, -4.05, 0), color="#F1E4CC", strength=1.0, align_x="LEFT",
+                    halo=0.0, plate=0.85)
+    TitleScene.fade(label, C.sec(0.6 * s), C.sec(1.4 * s), peak=0.9)
     kicker = ts.text("Kicker", "МОНГОЛ ТӨРИЙН ТҮҮХЭН ЭРГЭЛТ", fonts["sans"], 0.30,
                      (0, -1.95, 0), color="#C8A56C", strength=1.1, spacing=1.25)
     big = ts.text("BigTime", "16:17", fonts["serif"], 1.35, (0, -2.75, 0), color="#F1E4CC", strength=1.25)
