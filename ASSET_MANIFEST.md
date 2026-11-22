@@ -39,6 +39,20 @@ responses. `python3 fetch_commons_assets.py --verify-only` must exit 0 before Sc
 | `s04_revolutionaries_1921.jpg` | 04 | photograph: Mongolian revolutionaries with B. Shumyatsky | unknown, Sept 1921 |
 | `s04_kyakhta_1921.jpg` | 04 | photograph: Mongolian and Soviet revolutionaries in Kyakhta | unknown, 19 March 1921 |
 
+**Additional source (user-requested, 2026-11-22): Musée départemental Albert-Kahn.** Because Wikimedia
+rate-limited this machine, three Stéphane Passet autochromes were taken directly from the museum that holds
+the originals. Each document page states *"Licence d'utilisation : Librement réutilisable (CC-00) – Domaine
+public"*; the museum's terms ask for title, author and museum credit, and no distortion of the work.
+
+| File | Scene | Kind | Museum caption / date | Inventory | Page |
+|---|---|---|---|---|---|
+| `ak_A3953.jpg` | 03 | photograph (autochrome) | Westerner in Mongolian dignitary dress with officials of the Bogd Khan's court, Urga, 17 Jul 1913 | A3953 | collections.albert-kahn.hauts-de-seine.fr/document/…/617a7a3ecf8b8968b3359cfd |
+| `ak_A3957.jpg` | 03 | photograph (autochrome) | Mongol rider on the road to Urga, 17 Jul 1913 (the museum's identification of the rider carries a "?", so the film does not name him) | A3957 | …/617a7a3ecf8b8968b3359d01 |
+| `ak_A3959.jpg` | 03 | photograph (autochrome) | Ger quarter, Urga, 20 Jul 1913 | A3959 | …/617a7a3ecf8b8968b3359d03 |
+
+Scene 03 uses the Commons file when it is available, otherwise the Albert-Kahn photograph, otherwise a labelled
+reconstruction (`archive.first_available`). Full metadata: `assets/archival/albert_kahn.json`.
+
 Every card shows its caption (painting vs photograph, author, date, "Нийтийн өмч"), and the Scene 08
 end roll lists all six with Commons pages (`scripts/lib/archive.py::credits_lines`).
 Excluded (see the v2 manifest): the 1924 Great Khural photo (no independent US PD tag), the 1924–30 flag

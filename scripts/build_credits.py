@@ -29,9 +29,13 @@ def secondary_text():
     for aid in used:
         e = AR.manifest()[aid]
         kind = "уран зураг" if "painting" in e["role"] else "гэрэл зураг"
-        lic = "нийтийн өмч" if "public domain" in e["license_label"].lower() else e["license_label"]
+        ll = e["license_label"].lower()
+        lic = ("CC0, нийтийн өмч" if "cc0" in ll else
+               "нийтийн өмч" if ("public domain" in ll or "domaine public" in ll) else e["license_label"])
         arch.append(f"{e['display_title']} ({kind})")
-        arch.append(f"{AR.AUTHOR_MN.get(aid, e['author'])} · {lic} · Wikimedia Commons")
+        where = "Альбер Каны музей (Hauts-de-Seine)" if e.get("source") == "albert-kahn" else "Wikimedia Commons"
+        who = AR.AUTHOR_MN.get(aid, e['author']).split(" · ")[0]
+        arch.append(f"{who} · {lic} · {where}")
     lines = [
         "ХҮҮРНЭЛ  ·  ElevenLabs Eleven v4, «Bilguun» хоолой (elevenlabs.io)",
         "ХӨГЖИМ, ДУУ  ·  Төслийн эх бүтээл (кодоор синтезлэсэн)",
