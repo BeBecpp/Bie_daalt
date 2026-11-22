@@ -27,14 +27,14 @@ def main():
     LY.paper_backdrop("Backdrop", 16, 9, (0, 6, 0), tone="#b59a72")
     from lib import archive as AR
     # approved public-domain assets (assets/archival/manifest.json); else labelled placeholders
-    for name, aid, size, loc, rz, fit in (
-            ("BogdKhanPortrait", "s03_bogd_sharav", (2.4, 3.0), (-2.3, 2.0, 0.2), 6, "height"),
-            ("Khuree1913", "s03_gandan_1913", (3.4, 2.4), (3.4, 3.6, 0.9), -8, "width"),
-            ("Khuree1913b", "s03_tsagaan_hill_1913", (2.8, 2.0), (6.8, 5.0, -0.6), 5, "width")):
+    for name, aid, size, loc, rz, fit, kind in (
+            ("BogdKhanPortrait", "s03_bogd_sharav", (2.4, 3.0), (-2.3, 2.0, 0.2), 6, "height", "portrait"),
+            ("Khuree1913", "s03_gandan_1913", (3.4, 2.4), (3.4, 3.6, 0.9), -8, "width", "landscape"),
+            ("Khuree1913b", "s03_tsagaan_hill_1913", (2.8, 2.0), (6.8, 5.0, -0.6), 5, "width", "group")):
         a = AR.asset(aid)
         img = sh.args.photo if (aid == "s03_bogd_sharav" and sh.args.photo) else a["path"]
         LY.archive_placeholder(name, size[0], size[1], sh.fonts, "АРХИВЫН ЗУРАГ\n(татагдаагүй — орлуулах газар)",
-                               location=loc, rot=(0, 0, math.radians(rz)), tone="#7a6a55", image=img, fit=fit,
+                               location=loc, rot=(0, 0, math.radians(rz)), tone="#7a6a55", image=img, fit=fit, recon=kind,
                                caption=f"{a['caption']}\n{a['credit']}")
     # extruded date and its red underline drawn by the 'pen'
     brass = M.metal("Brass", "#C8A56C", 0.3)

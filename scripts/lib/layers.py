@@ -83,7 +83,7 @@ def _is_image(path):
 
 
 def archive_placeholder(name, w, h, fonts, label, location=(0, 0, 0), rot=(0, 0, 0), collection=None,
-                        tone="#8a7356", image=None, caption=None, fit="height"):
+                        tone="#8a7356", image=None, caption=None, fit="height", recon="group"):
     """Framed print on a card mount. With a rights-cleared image the print uses
     it (aspect taken from the file) and `caption` (attribution) sits under the
     mount; with no image a centred label marks it as a placeholder."""
@@ -106,12 +106,17 @@ def archive_placeholder(name, w, h, fonts, label, location=(0, 0, 0), rot=(0, 0,
     photo = _plane(f"{name}_Photo", w, h, collection, photo_material(f"{name}_PhotoMat", tone, image))
     photo.parent = root
     if not image:
-        txt = C.text_object(f"{name}_Label", label, fonts["sans"], size=h * 0.055, collection=collection,
-                            location=(0, -0.004, 0))
+        # labelled artistic reconstruction: small silhouette diorama inside the frame
+        _reconstruction(name, w, h, recon, collection, root)
+        txt = C.text_object(f"{name}_Label", "Уран сайхны сэргээн дүрслэл\n(архивын зургийн оронд)",
+                            fonts["sans"], size=h * 0.045, collection=collection,
+                            location=(0, -0.03, -h * 0.40))
         txt.rotation_euler.x = 1.5708
         txt.data.align_y = "CENTER"
         txt.data.materials.append(M.emission(f"{name}_LabelMat", "#e8d6b7", 1.2))
         txt.parent = root
+    if caption and not image:
+        caption = None            # never show a photo credit on a reconstruction
     if image and caption:
         cap = C.text_object(f"{name}_Caption", caption, fonts["sans_regular"], size=max(0.13, h * 0.05), collection=collection,
                             location=(0, -0.01, -h * 0.57 - 0.16))
@@ -126,3 +131,43 @@ def paper_backdrop(name, w, h, location, collection=None, tone="#cdb894"):
     p = _plane(name, w, h, collection, mat)
     p.location = location
     return p
+
+
+def _reconstruction(name, w, h, kind, collection, root):
+    """Dark silhouettes standing just in front of the print surface."""
+    from mathutils import Matrix
+    sil = bpy.data.materials.get("ReconSilhouette") or M.flat("ReconSilhouette", "#1a1612", 0.8)
+    bm = bmesh.new()
+
+    def cone(r1, r2, d, loc, seg=16):
+        g = bmesh.ops.create_cone(bm, cap_ends=True, segments=seg, radius1=r1, radius2=r2, depth=d)
+        bmesh.ops.rotate(bm, verts=g["verts"], cent=(0, 0, 0), matrix=Matrix.Rotation(-1.5708, 3, "X"))
+        bmesh.ops.translate(bm, verts=g["verts"], vec=loc)
+
+    def blob(r, sc, loc):
+        g = bmesh.ops.create_uvsphere(bm, u_segments=14, v_segments=9, radius=r)
+        bmesh.ops.scale(bm, vec=sc, verts=g["verts"])
+        bmesh.ops.translate(bm, verts=g["verts"], vec=loc)
+
+    base = -h * 0.32
+    if kind == "portrait":
+        blob(h * 0.22, (1.0, 0.12, 0.9), (0, -0.02, base + h * 0.12))      # shoulders
+        blob(h * 0.10, (1.0, 0.12, 1.15), (0, -0.03, base + h * 0.42))     # head
+        cone(h * 0.12, h * 0.02, h * 0.03, (0, -0.03, base + h * 0.56))    # hat
+    elif kind == "landscape":
+        for i, x in enumerate((-0.32, -0.12, 0.06, 0.26)):
+            r = h * (0.12 if i % 2 else 0.09)
+            blob(r, (1.0, 0.1, 0.55), (x * w, -0.02, base + r * 0.3))       # ger / stupa bodies
+            cone(r * 0.7, r * 0.05, 0.02, (x * w, -0.02, base + r * 0.9))
+    else:  # group
+        for i in range(7):
+            x = (i - 3) * w * 0.12
+            blob(h * 0.05, (1.0, 0.12, 1.0), (x, -0.02, base + h * 0.36))
+            blob(h * 0.08, (0.75, 0.1, 1.5), (x, -0.02, base + h * 0.16))
+    me = bpy.data.meshes.new(f"{name}_Recon")
+    bm.to_mesh(me)
+    bm.free()
+    obj = C.link(bpy.data.objects.new(f"{name}_Recon", me), collection)
+    me.materials.append(sil)
+    obj.parent = root
+    return obj

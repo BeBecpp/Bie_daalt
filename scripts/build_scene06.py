@@ -67,7 +67,7 @@ def main():
 
     # ------------------------------------------------------------ sets
     desk = S.desk_set(args.quality, F, origin=(0, 0, 0), manuscript_image=args.manuscript_image)
-    hall = S.hall_set(origin=(30, 0, 0), volume=not args.no_volume)
+    hall = S.hall_set(origin=(30, 0, 0), volume=not (args.no_volume or args.rough))
     sky = bpy.data.objects["HallSkyCard"]
     sky.visible_shadow = False
     for o in hall["collection"].objects:      # the haze must not cast shadows either

@@ -50,6 +50,8 @@ def parse_args(extra=None):
     p.add_argument("--samples", type=int, default=None, help="override render samples")
     p.add_argument("--out", default=None, help="output folder for frames")
     p.add_argument("--no-save", action="store_true", help="do not write the .blend file")
+    p.add_argument("--rough", action="store_true",
+                   help="rough-cut profile: 4 samples, fast denoise, low bounces, every 2nd frame (12 fps)")
     if extra:
         extra(p)
     return p.parse_args(argv)
@@ -119,7 +121,9 @@ def setup_render(scene, args, frame_end, samples_preview=24, samples_final=96):
     scene.render.image_settings.color_depth = "8"
 
     _set_engine(scene, args.engine)
-    samples = args.samples or (samples_preview if args.quality == "preview" else samples_final)
+    rough = getattr(args, "rough", False)
+    samples = args.samples or (4 if rough else (samples_preview if args.quality == "preview" else samples_final))
+    scene.frame_step = 2 if rough else 1
     if scene.render.engine == "CYCLES":
         c = scene.cycles
         c.device = "CPU"
@@ -140,6 +144,15 @@ def setup_render(scene, args, frame_end, samples_preview=24, samples_final=96):
         c.caustics_refractive = False
         c.blur_glossy = 1.0
         scene.render.use_persistent_data = True
+        if rough:
+            c.adaptive_threshold = 0.08
+            c.max_bounces, c.diffuse_bounces, c.glossy_bounces = 3, 1, 2
+            c.transmission_bounces, c.transparent_max_bounces = 3, 6
+            for attr, val in (("denoising_prefilter", "FAST"), ("denoising_quality", "FAST")):
+                try:
+                    setattr(c, attr, val)
+                except (AttributeError, TypeError):
+                    pass
     else:
         e = scene.eevee
         e.taa_render_samples = max(16, samples)

@@ -95,7 +95,7 @@ def main():
           M.flat("Backdrop", "#15110d", 0.9), bevel=0)
     a = AR.asset("s02_chinggis_yuan_portrait")
     LY.archive_placeholder("ChinggisPortrait", 2.6, 3.4, sh.fonts, "АРХИВЫН ДҮРС\n(татагдаагүй — орлуулах газар)",
-                           location=tuple(po), image=a["path"], fit="height", tone="#8a6a40",
+                           location=tuple(po), image=a["path"], fit="height", tone="#8a6a40", recon="portrait",
                            caption=f"{a['caption']}\n{a['credit']}")
     pk = bpy.data.lights.new("PortraitKey", "AREA")
     pk.size, pk.color = 2.0, C.kelvin_rgb(4800)

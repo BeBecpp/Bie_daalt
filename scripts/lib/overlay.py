@@ -30,7 +30,7 @@ class TitleScene:
         self.scene = sc
         sc.render.engine = main_scene.render.engine
         if sc.render.engine == "CYCLES":
-            sc.cycles.samples = 16
+            sc.cycles.samples = 8 if main_scene.frame_step > 1 else 16
             sc.cycles.use_denoising = False
             sc.cycles.device = "CPU"
         sc.render.resolution_x = main_scene.render.resolution_x
@@ -156,7 +156,8 @@ def build_compositor(main, titles_scene, fade_in=(1, 30), vignette=0.55, bloom=0
             break
         except TypeError:
             continue
-    _set(glare, "Quality", "MEDIUM") if "Quality" in glare.inputs else setattr(glare, "quality", "MEDIUM")
+    q = "LOW" if main.frame_step > 1 else "MEDIUM"
+    _set(glare, "Quality", q) if "Quality" in glare.inputs else setattr(glare, "quality", q)
     _set(glare, "Threshold", 0.9)
     if not _set(glare, "Strength", bloom):
         _set(glare, "Mix", -1 + 2 * bloom)

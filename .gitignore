@@ -6,3 +6,4 @@ __pycache__/
 # Generated textures are rebuilt by the scripts; the 2048px preview set is
 # kept so scenes/scene01.blend opens with its textures.
 assets/textures/generated/*_4096.png
+audio/music/*.wav
