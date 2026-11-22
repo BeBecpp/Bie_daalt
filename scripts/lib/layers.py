@@ -73,10 +73,31 @@ def photo_material(name, tone="#8a7356", image=None, grain=1.0):
     return mat
 
 
+def _is_image(path):
+    import os
+    if not os.path.exists(path):
+        return False
+    with open(path, "rb") as fh:
+        head = fh.read(8)
+    return head.startswith(b"\xff\xd8\xff") or head.startswith(b"\x89PNG")
+
+
 def archive_placeholder(name, w, h, fonts, label, location=(0, 0, 0), rot=(0, 0, 0), collection=None,
-                        tone="#8a7356", image=None):
-    """Framed print on a card mount. With no image, a centred label states it
-    is a placeholder for an unverified archival photo."""
+                        tone="#8a7356", image=None, caption=None, fit="height"):
+    """Framed print on a card mount. With a rights-cleared image the print uses
+    it (aspect taken from the file) and `caption` (attribution) sits under the
+    mount; with no image a centred label marks it as a placeholder."""
+    import os
+    if image and not _is_image(image):
+        print(f"[1617] {image} missing or not an image -> placeholder")
+        image = None
+    if image:
+        img = bpy.data.images.load(image, check_existing=True)
+        ar = img.size[0] / max(1, img.size[1])
+        if fit == "height":
+            w = h * ar
+        else:
+            h = w / ar
     root = C.empty(name, location, collection, size=0.2)
     root.rotation_euler = rot
     mount = _plane(f"{name}_Mount", w * 1.12, h * 1.14, collection, M.flat(f"{name}_MountMat", "#d9ccb0", 0.9))
@@ -91,6 +112,12 @@ def archive_placeholder(name, w, h, fonts, label, location=(0, 0, 0), rot=(0, 0,
         txt.data.align_y = "CENTER"
         txt.data.materials.append(M.emission(f"{name}_LabelMat", "#e8d6b7", 1.2))
         txt.parent = root
+    if image and caption:
+        cap = C.text_object(f"{name}_Caption", caption, fonts["sans_regular"], size=0.11, collection=collection,
+                            location=(0, -0.01, -h * 0.57 - 0.16))
+        cap.rotation_euler.x = 1.5708
+        cap.data.materials.append(M.emission(f"{name}_CaptionMat", "#e8d6b7", 1.0))
+        cap.parent = root
     return root
 
 

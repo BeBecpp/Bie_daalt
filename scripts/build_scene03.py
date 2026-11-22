@@ -25,11 +25,21 @@ def main():
     sh = Shot("03", "Independence1911", 22.0, extra=extra, world_hex="#1a140e", world_strength=0.4)
     t, END = sh.t, sh.n_frames
     LY.paper_backdrop("Backdrop", 16, 9, (0, 6, 0), tone="#b59a72")
-    LY.archive_placeholder("BogdKhanPhoto", 2.4, 3.1, sh.fonts,
+    arch = lambda f: os.path.join(C.PROJECT_ROOT, "assets", "archival", f)
+    # public-domain sources, see ASSET_MANIFEST.md (Wikimedia Commons pages)
+    LY.archive_placeholder("BogdKhanPortrait", 2.4, 3.0, sh.fonts,
                            "АРХИВЫН ЗУРАГ\n(эрх нь баталгаажаагүй —\nорлуулах газар)",
-                           location=(-2.3, 2.0, 0.2), rot=(0, 0, math.radians(6)), image=sh.args.photo)
-    LY.archive_placeholder("CityPhoto", 3.4, 2.2, sh.fonts, "АРХИВЫН ЗУРАГ\n(орлуулах газар)",
-                           location=(3.4, 3.6, 0.9), rot=(0, 0, math.radians(-8)), tone="#7a6a55")
+                           location=(-2.3, 2.0, 0.2), rot=(0, 0, math.radians(6)),
+                           image=sh.args.photo or arch("sharav_bogd_khan_painting.jpg"),
+                           caption="Богд хаан — Марзан Шарав, уран зураг · Нийтийн өмч")
+    LY.archive_placeholder("Khuree1913", 3.4, 2.4, sh.fonts, "АРХИВЫН ЗУРАГ\n(орлуулах газар)",
+                           location=(3.4, 3.6, 0.9), rot=(0, 0, math.radians(-8)), tone="#7a6a55",
+                           image=arch("passet_1913_gandan_khuree.jpg"), fit="width",
+                           caption="Нийслэл хүрээ, Гандан, 1913 — Стефан Пассе (А. Каны архив) · Нийтийн өмч")
+    LY.archive_placeholder("Khuree1913b", 2.8, 2.0, sh.fonts, "АРХИВЫН ЗУРАГ\n(орлуулах газар)",
+                           location=(6.8, 5.0, -0.6), rot=(0, 0, math.radians(5)), tone="#7a6a55",
+                           image=arch("passet_1913_tsagaan_hill_khuree.jpg"), fit="width",
+                           caption="Нийслэл хүрээ, Цагаан толгой, 1913 — Стефан Пассе · Нийтийн өмч")
     # extruded date and its red underline drawn by the 'pen'
     brass = M.metal("Brass", "#C8A56C", 0.3)
     yr = C.text_object("Year1911", "1911", sh.fonts["serif"], size=1.5, extrude=0.08,

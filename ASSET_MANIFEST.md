@@ -23,6 +23,24 @@ template; this file tracks the actual state of the project.
 - To use a real scan once its rights are cleared:
   `blender -b --factory-startup --python scripts/build_scene01.py -- --manuscript-image assets/archival/<scan>.png`
 
+## Archival images (Scenes 03, 04)
+
+All from Wikimedia Commons, marked **Public domain** on their file pages
+(checked through the Commons API `extmetadata`, 2026-11-22). Public-domain status
+can depend on the country, so the file pages are linked for the teacher to check.
+Each image carries an on-screen attribution caption.
+
+| File (`assets/archival/`) | Scene | What it is | Author / date | Commons page | License |
+|---|---|---|---|---|---|
+| `sharav_bogd_khan_painting.jpg` | 03 | Portrait of the Bogd Khan: **a painting**, not a photograph | Marzan Sharav (1869–1939), before 20 May 1924 | https://commons.wikimedia.org/wiki/File:Sharav_bogd_khan.jpg | Public domain |
+| `passet_1913_gandan_khuree.jpg` | 03 | Stupas at Gandan, Khüree (Urga), 21 July 1913, autochrome | Stéphane Passet (1875–1942), Albert Kahn "Archives de la planète" | https://commons.wikimedia.org/wiki/File:1913_Gandan_Monastery_in_Khuree.jpg | Public domain |
+| `passet_1913_tsagaan_hill_khuree.jpg` | 03 | Lamas on Tsagaan hill, Khüree, July 1913, autochrome (genuine early colour process, not colourised) | Stéphane Passet | https://commons.wikimedia.org/wiki/File:June_23,_1913_in_Khuree.jpg | Public domain |
+| `mongolian_revolutionaries_1921.jpg` | 04 | B. Shumyatsky with Mongolian revolutionaries, Sept 1921 | unknown author | https://commons.wikimedia.org/wiki/File:Mongolian_Revolutionaries.jpg | Public domain (anonymous, >100 years) |
+
+Rejected: a 1925 map of Outer Mongolia (shows borders, which the art direction warns against);
+`Bogd Khan (1).jpg` (date given as "19th century", which is not credible);
+`Proclamation of Niislel Khuree.jpg` (a 2023 photo of a museum object with an unknown author, so the license is unclear).
+
 ## Placeholders still open (later scenes)
 
 | Planned file | Use | Candidate source | Status |

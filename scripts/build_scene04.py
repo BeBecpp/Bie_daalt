@@ -21,13 +21,19 @@ def main():
     t, END = sh.t, sh.n_frames
     sh.scene.view_settings.look = "AgX - Base Contrast"
     LY.paper_backdrop("Backdrop", 26, 12, (0, 9, 0), tone="#8d949a")
-    frames = [((-3.2, 1.0, 0.4), (2.6, 1.8), 5, "АРХИВЫН ЗУРАГ · 1921\n(орлуулах газар)"),
-              ((0.4, 3.0, -0.2), (3.0, 2.0), -4, "АРХИВЫН ЗУРАГ\n(орлуулах газар)"),
-              ((3.8, 1.6, 0.6), (2.0, 2.6), 7, "АРХИВЫН ЗУРАГ\n(орлуулах газар)"),
-              ((7.4, 4.0, -0.1), (3.2, 2.1), -6, "АРХИВЫН ЗУРАГ\n(орлуулах газар)")]
-    for i, (loc, (w, h), rz, lab) in enumerate(frames):
-        LY.archive_placeholder(f"Photo{i}", w, h, sh.fonts, lab, location=loc,
-                               rot=(0, 0, math.radians(rz)), tone="#7d8287")
+    arch = os.path.join(C.PROJECT_ROOT, "assets", "archival", "mongolian_revolutionaries_1921.jpg")
+    LY.archive_placeholder("Revolutionaries1921", 3.6, 2.6, sh.fonts, "АРХИВЫН ЗУРАГ · 1921\n(орлуулах газар)",
+                           location=(1.2, 2.2, 0.45), rot=(0, 0, math.radians(-4)), tone="#7d8287",
+                           image=arch, fit="width",
+                           caption="1921 оны 9 сар: Б. Шумяцкий (ЗХУ) Монголын хувьсгалчдын хамт · "
+                                   "зохиогч тодорхойгүй · Нийтийн өмч")
+    # abstract document layers (labelled reconstruction) give depth around the photo
+    from lib import sets as S
+    docs = S.manuscript_material(sh.args.quality, seed=1921, name="DocSheet")
+    for i, (loc, rz) in enumerate((((-3.6, 3.4, 0.2), 8), ((6.0, 4.4, -0.3), -7), ((-1.4, 5.6, 1.4), 3))):
+        d = P.parchment_sheet(f"Doc{i}", size=(2.1, 2.97), res=(30, 42), mat=docs, seed=60 + i, curl=0.0)
+        d.location = loc
+        d.rotation_euler = (math.radians(90), 0, math.radians(rz))
     yr = C.text_object("Year1921", "1921", sh.fonts["serif"], size=1.6, extrude=0.08, location=(-1.6, -0.6, 1.25))
     yr.rotation_euler.x = math.radians(90)
     yr.data.bevel_depth = 0.012
