@@ -1,0 +1,8 @@
+# Rendered frames and videos are reproducible from scripts.
+output/
+*.blend1
+__pycache__/
+*.pyc
+# Generated textures are rebuilt by the scripts; the 2048px preview set is
+# kept so scenes/scene01.blend opens with its textures.
+assets/textures/generated/*_4096.png

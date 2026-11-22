@@ -1,0 +1,74 @@
+[
+  {
+    "id": "01",
+    "start": 0,
+    "end": 17,
+    "slug": "the_moment",
+    "date": "1924-11-26",
+    "camera": "macro dolly",
+    "asset_mode": "procedural_3d"
+  },
+  {
+    "id": "02",
+    "start": 17,
+    "end": 48,
+    "slug": "foundation_1206",
+    "date": "1206",
+    "camera": "low angle wide to orbit",
+    "asset_mode": "stylized_3d"
+  },
+  {
+    "id": "03",
+    "start": 48,
+    "end": 70,
+    "slug": "independence_1911",
+    "date": "1911-12-29",
+    "camera": "2_5d parallax",
+    "asset_mode": "archive_if_permitted"
+  },
+  {
+    "id": "04",
+    "start": 70,
+    "end": 97,
+    "slug": "revolution_1921",
+    "date": "1921",
+    "camera": "track through image layers",
+    "asset_mode": "archive_if_permitted"
+  },
+  {
+    "id": "05",
+    "start": 97,
+    "end": 121,
+    "slug": "decision_1924",
+    "date": "1924-05",
+    "camera": "desk macro",
+    "asset_mode": "procedural_3d"
+  },
+  {
+    "id": "06",
+    "start": 121,
+    "end": 167,
+    "slug": "constitution_1924",
+    "date": "1924-11-26T16:17",
+    "camera": "table-to-gallery dissolve",
+    "asset_mode": "procedural_and_archive"
+  },
+  {
+    "id": "07",
+    "start": 167,
+    "end": 207,
+    "slug": "rights_and_limits",
+    "date": "1924",
+    "camera": "infographic 3d transitions",
+    "asset_mode": "motion_graphics"
+  },
+  {
+    "id": "08",
+    "start": 207,
+    "end": 240,
+    "slug": "legacy",
+    "date": "1992-and-present",
+    "camera": "wide sunrise pullback",
+    "asset_mode": "stylized_3d"
+  }
+]

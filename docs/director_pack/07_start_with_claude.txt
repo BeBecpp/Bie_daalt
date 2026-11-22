@@ -1,0 +1,19 @@
+Build the Grade-10 history cinematic documentary as a real, runnable Blender-based animation project from this director pack.
+
+FIRST: read all documents in this directory, especially CLAUDE.md, storyboard, narration, history fact-check and pipeline. Then:
+(1) summarize the implementation in <= 10 lines;
+(2) generate project folders, scripts, procedural objects, camera moves, lighting, typography, render helpers and scene manifests;
+(3) implement Scene 01 as an ACTUAL 7–10-second Blender animation, not a still slideshow: antique scroll, 3D light, real dolly camera, 16:17 clock, stylized particles;
+(4) run it and show rendered preview frames if tool/environment permits;
+(5) only after reviewing those frames, start the other seven scenes in priority order Scene 06, Scene 02, Scene 08, Scene 03, Scene 04, Scene 05, Scene 07;
+(6) leave a reusable run/render pipeline, source manifest, copyright notes and self-check list.
+
+Hard constraints:
+- All local production/editing software should be free/open-source: Blender + Python/bpy + FFmpeg + Kdenlive; ElevenLabs Mongolian v4 is the only optional closed TTS.
+- 1080p 24fps, ~4 min, Mongolian Cyrillic narration and accurate subtitles.
+- The history needs to remain accurate to primary and institutional sources.
+- Respect archival-image rights; unverified image should remain placeholder.
+- Clear historical reenactment labels; never invent archival movie footage or quotes.
+- Preserve the exact narration text file unless a correction is demonstrably necessary; propose corrections instead of silently changing meaning.
+- Build a working proof-of-concept before promising the full finished film.
+- The result should look like a tasteful premium documentary, not a presentation with camera zooms.
