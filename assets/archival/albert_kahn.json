@@ -1,0 +1,45 @@
+{
+  "source": "Musée départemental Albert-Kahn (Département des Hauts-de-Seine), Archives de la Planète — https://collections.albert-kahn.hauts-de-seine.fr/",
+  "licence_note": "Each document page states: 'Licence d'utilisation : Librement réutilisable (CC-00) - Domaine Public'. CGU: credit title, author, museum; do not distort. Checked 2026-11-22.",
+  "assets": [
+    {
+      "id": "ak_A3953",
+      "filename": "ak_A3953.jpg",
+      "inventory": "A3953",
+      "scene": "03",
+      "role": "real archive photo",
+      "title_fr": "Un occidental vêtu comme un dignitaire mongol en compagnie de fonctionnaires de la cour du Bogd Khan",
+      "place_date": "Ourga (Oulan-Bator), Mongolie, 17/07/1913",
+      "author": "Stéphane Passet",
+      "page": "https://collections.albert-kahn.hauts-de-seine.fr/document/un-occidental-vetu-comme-un-dignitaire-mongol-en-compagnie-de-fonctionnaires-de-la-cour-du-bogd-khan/617a7a3ecf8b8968b3359cfd",
+      "licence": "CC0 – Domaine public",
+      "caption_mn": "Богд хааны ордны түшмэдийн хамт монгол язгууртны хувцастай барууны хүн.\nНийслэл хүрээ, 1913.07.17 — өнгөт гэрэл зураг (автохром)"
+    },
+    {
+      "id": "ak_A3957",
+      "filename": "ak_A3957.jpg",
+      "inventory": "A3957",
+      "scene": "03",
+      "role": "real archive photo",
+      "title_fr": "Un cavalier près d'un cours d'eau (légende d'origine : Cavalier Mongol s/ la route d'Ourga)",
+      "place_date": "Environs d'Ourga, Mongolie, 17/07/1913",
+      "author": "Stéphane Passet",
+      "page": "https://collections.albert-kahn.hauts-de-seine.fr/document/un-cavalier-pres-d-un-cours-d-eau-le-jalkhanz-kuthugtu-damdinbazar/617a7a3ecf8b8968b3359d01",
+      "licence": "CC0 – Domaine public",
+      "caption_mn": "Нийслэл хүрээ рүү явах замд мордсон монгол морьтон.\n1913.07.17 — өнгөт гэрэл зураг (автохром)"
+    },
+    {
+      "id": "ak_A3959",
+      "filename": "ak_A3959.jpg",
+      "inventory": "A3959",
+      "scene": "03",
+      "role": "real archive photo",
+      "title_fr": "Un jeune garçon adossé contre une yourte (légende d'origine : Village de Yourtes)",
+      "place_date": "Ourga (Oulan-Bator), Mongolie, 20/07/1913",
+      "author": "Stéphane Passet",
+      "page": "https://collections.albert-kahn.hauts-de-seine.fr/document/un-jeune-garcon-adosse-contre-une-yourte/617a7a3ecf8b8968b3359d03",
+      "licence": "CC0 – Domaine public",
+      "caption_mn": "Гэр хороолол, Нийслэл хүрээ, 1913.07.20 — өнгөт гэрэл зураг (автохром)"
+    }
+  ]
+}

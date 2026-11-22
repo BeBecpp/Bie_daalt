@@ -27,39 +27,21 @@ def main():
     LY.paper_backdrop("Backdrop", 16, 9, (0, 6, 0), tone="#b59a72")
     from lib import archive as AR
     # approved public-domain assets (assets/archival/manifest.json); else labelled placeholders
+    # priority: Commons file (pack v2) -> Albert-Kahn CC0 autochrome -> labelled reconstruction
+    slot1 = AR.first_available("s03_bogd_sharav", "ak_A3953")
     for name, aid, size, loc, rz, fit, kind in (
-            ("BogdKhanPortrait", "s03_bogd_sharav", (2.4, 3.0), (-2.3, 2.0, 0.2), 6, "height", "portrait"),
-            ("Khuree1913", "s03_gandan_1913", (3.4, 2.4), (3.4, 3.6, 0.9), -8, "width", "landscape"),
-            ("Khuree1913b", "s03_tsagaan_hill_1913", (2.8, 2.0), (6.8, 5.0, -0.6), 5, "width", "group")):
+            ("ArchiveCard1", slot1, (2.4, 3.0) if slot1 == "s03_bogd_sharav" else (3.6, 2.67),
+             (-2.3, 2.0, 0.2), 6, "height" if slot1 == "s03_bogd_sharav" else "width", "portrait"),
+            ("ArchiveCard2", AR.first_available("s03_gandan_1913", "ak_A3957"), (3.4, 2.5), (3.4, 3.6, 0.9),
+             -8, "width", "landscape"),
+            ("ArchiveCard3", AR.first_available("s03_tsagaan_hill_1913", "ak_A3959"), (3.0, 2.2),
+             (6.8, 5.0, -0.6), 5, "width", "group")):
         a = AR.asset(aid)
         img = sh.args.photo if (aid == "s03_bogd_sharav" and sh.args.photo) else a["path"]
         LY.archive_placeholder(name, size[0], size[1], sh.fonts, "АРХИВЫН ЗУРАГ\n(татагдаагүй — орлуулах газар)",
                                location=loc, rot=(0, 0, math.radians(rz)), tone="#7a6a55", image=img, fit=fit, recon=kind,
                                caption=f"{a['caption']}\n{a['credit']}")
-    # extruded date and its red underline drawn by the 'pen'
-    brass = M.metal("Brass", "#C8A56C", 0.3)
-    yr = C.text_object("Year1911", "1911", sh.fonts["serif"], size=1.5, extrude=0.08,
-                       location=(1.6, 0.6, -0.6))
-    yr.rotation_euler.x = math.radians(90)
-    yr.data.bevel_depth = 0.012
-    yr.data.materials.append(brass)
-    C.key(yr, "location", 1, (1.6, 0.6, -1.4))
-    C.key(yr, "location", t(4.0), (1.6, 0.6, -0.6))
-    C.set_interpolation(yr, "BEZIER", handle="AUTO_CLAMPED")
-    cu = bpy.data.curves.new("InkLine", "CURVE")
-    cu.dimensions = "3D"
-    sp = cu.splines.new("BEZIER")
-    sp.bezier_points.add(2)
-    for bp, co in zip(sp.bezier_points, ((-0.2, 0.55, -1.0), (1.6, 0.55, -1.08), (3.4, 0.55, -0.98))):
-        bp.co = co
-        bp.handle_left_type = bp.handle_right_type = "AUTO"
-    cu.bevel_depth = 0.018
-    line = C.link(bpy.data.objects.new("InkLine", cu))
-    line.data.materials.append(M.flat("RedInk", "#782E2F", 0.4))
-    cu.bevel_factor_end = 0.0
-    cu.keyframe_insert("bevel_factor_end", frame=t(3.0))
-    cu.bevel_factor_end = 1.0
-    cu.keyframe_insert("bevel_factor_end", frame=t(6.5))
+    # (the date is carried by the overlay card; real 1913 photographs are the focus here)
     # smoke-like haze and dust in front of the layers
     P.dust_field("Dust", (-6, -2.5, -3), (6, 4, 3), count=1800, radius=(0.004, 0.012), wander=0.25,
                  drift=(0.05, 0.0, 0.03), mat=M.dust())

@@ -19,11 +19,30 @@ _MANIFEST = None
 
 
 def manifest():
+    """Approved Commons assets (director pack v2) + Albert-Kahn CC0 autochromes."""
     global _MANIFEST
     if _MANIFEST is None:
         with open(os.path.join(ARCH_DIR, "manifest.json"), encoding="utf-8") as fh:
             _MANIFEST = {a["id"]: a for a in json.load(fh)["approved_assets"]}
+        ak = os.path.join(ARCH_DIR, "albert_kahn.json")
+        if os.path.exists(ak):
+            for a in json.load(open(ak, encoding="utf-8"))["assets"]:
+                _MANIFEST[a["id"]] = {
+                    "id": a["id"], "filename": a["filename"], "scene": a["scene"], "role": a["role"],
+                    "display_title": a["caption_mn"].split(" — ")[0].replace("\n", " "), "caption_mn": a["caption_mn"],
+                    "author": f"{a['author']}; Musée Albert-Kahn {a['inventory']}",
+                    "date": a["place_date"], "license_label": f"{a['licence']} (Musée départemental Albert-Kahn)",
+                    "commons_page": a["page"], "source": "albert-kahn"}
+                AUTHOR_MN[a["id"]] = f"Стефан Пассе · Альбер Каны музей ({a['inventory']})"
     return _MANIFEST
+
+
+def first_available(*ids):
+    """First asset id in priority order whose file is a verified image."""
+    for i in ids:
+        if i in manifest() and asset(i)["path"]:
+            return i
+    return ids[0]
 
 
 def verified(path):
@@ -44,7 +63,8 @@ def asset(asset_id):
     return {
         "path": path if verified(path) else None,
         "caption": a["caption_mn"],
-        "credit": f"{author} · Wikimedia Commons · Нийтийн өмч",
+        "credit": (f"{author} · CC0, нийтийн өмч" if a.get("source") == "albert-kahn"
+                   else f"{author} · Wikimedia Commons · Нийтийн өмч"),
         "role": a["role"],
         "entry": a,
     }
@@ -53,6 +73,8 @@ def asset(asset_id):
 def credits_lines():
     out = []
     for a in manifest().values():
+        if not verified(os.path.join(ARCH_DIR, a["filename"])):
+            continue
         out.append(f"{a['display_title']} — {a['author'].split(';')[0].strip()}, {a['date'].split('(')[0].strip()}"
                    f" · {a['license_label'].split('(')[0].strip()} · {a['commons_page'].replace('https://', '')}")
     return out
