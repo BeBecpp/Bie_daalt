@@ -1,0 +1,75 @@
+[
+  {
+    "scene": "01",
+    "name": "16:17 opening",
+    "start": 0,
+    "end": 17,
+    "archive_assets": [],
+    "style": "3D clock + manuscript, no unlicensed document scan"
+  },
+  {
+    "scene": "02",
+    "name": "1206 Mongol state",
+    "start": 17,
+    "end": 48,
+    "archive_assets": [
+      "s02_chinggis_yuan_portrait.jpg"
+    ],
+    "style": "historical painting + original 3D landscape, depict painting as later representation"
+  },
+  {
+    "scene": "03",
+    "name": "1911 independence",
+    "start": 48,
+    "end": 70,
+    "archive_assets": [
+      "s03_bogd_sharav.jpg",
+      "s03_gandan_1913.jpg",
+      "s03_tsagaan_hill_1913.jpg"
+    ],
+    "style": "Bogd portrait painting + 1913 photos as period context, not 1911 eyewitness images"
+  },
+  {
+    "scene": "04",
+    "name": "1921 revolution",
+    "start": 70,
+    "end": 97,
+    "archive_assets": [
+      "s04_revolutionaries_1921.jpg",
+      "s04_kyakhta_1921.jpg"
+    ],
+    "style": "documentary photos in 3D parallax layers"
+  },
+  {
+    "scene": "05",
+    "name": "1924 political transition",
+    "start": 97,
+    "end": 121,
+    "archive_assets": [],
+    "style": "3D symbolic design, no unlicensed portraits"
+  },
+  {
+    "scene": "06",
+    "name": "1924 constitution",
+    "start": 121,
+    "end": 167,
+    "archive_assets": [],
+    "style": "3D scene with typography, 1924 Khural photo excluded pending US rights check"
+  },
+  {
+    "scene": "07",
+    "name": "Constitution changes",
+    "start": 167,
+    "end": 207,
+    "archive_assets": [],
+    "style": "Original vector info graphics, 6 chapters 50 articles"
+  },
+  {
+    "scene": "08",
+    "name": "Legacy / conclusion",
+    "start": 207,
+    "end": 240,
+    "archive_assets": [],
+    "style": "Original 3D Mongolia environment, end credits/attributions"
+  }
+]

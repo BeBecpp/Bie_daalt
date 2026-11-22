@@ -113,7 +113,9 @@ def main():
     # closing source card: black backdrop + bibliography (no narration here)
     black = ts.rule("SourceBackdrop", 20, (0, 0, -0.6), color="#000000", thickness=12, strength=0.0)
     TitleScene.fade(black, SRC - int(0.8 * sh.fps), SRC, peak=1.0)
-    src = ts.text("Sources", SOURCES, sh.fonts["sans_regular"], 0.3, (0, 1.6, 0), color="#E8D6B7",
+    from lib import archive as AR
+    arch = "\n".join(["", "Архивын дүрс (Wikimedia Commons, нийтийн өмч):"] + AR.credits_lines())
+    src = ts.text("Sources", SOURCES + arch, sh.fonts["sans_regular"], 0.2, (0, 3.9, 0), color="#E8D6B7",
                   strength=1.0, halo=0.0)
     src.data.align_y = "TOP"
     src.data.space_line = 1.35

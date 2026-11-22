@@ -27,7 +27,7 @@ from lib.shot import Shot  # noqa: E402
 def main():
     sh = Shot("02", "Foundation1206", 31.0, samples_preview=16)
     t, sc = sh.t, sh.scene
-    A0, B0, C0, END = 1, t(12.0), t(22.0), sh.n_frames
+    A0, P0, B0, C0, END = 1, t(9.0), t(14.0), t(22.5), sh.n_frames
     S.sky_world(sc, sun_elev_deg=3.5, sun_rot_deg=100, strength=0.35)
     steppe = S.steppe_set(grass_center=(0, 0), grass_size=60, grass_density=14, hills=12.0)
     gz = steppe["ground_z"]
@@ -51,11 +51,11 @@ def main():
     ridge_y = 140.0
     for i, r in enumerate(riders):
         x0, x1 = -62 - i * 7, 40 - i * 7
-        for f, x in ((1, x0), (B0, x1)):
+        for f, x in ((1, x0), (P0, x1)):
             C.key(r, "location", f, (x, ridge_y + (i % 2) * 4, gz(x, ridge_y) + 0.1))
         r.rotation_euler.z = math.radians(-90)
         r.scale = (1.6, 1.6, 1.6)
-        for f in range(1, B0, 4):  # gallop bob
+        for f in range(1, P0, 4):  # gallop bob
             C.key(r, "rotation_euler", f, math.radians(3.0 * math.sin(f * 0.9 + i)), index=0)
         C.set_interpolation(r, "LINEAR")
 
@@ -85,7 +85,28 @@ def main():
 
     camA, aimA = sh.camera("CamA_Grass", 85, fstop=4.0)
     sh.move(camA, aimA, [(A0, (-6, -14, gz(-6, -14) + 0.7), (-40, ridge_y, gz(-40, ridge_y) + 3)),
-                         (B0, (5, -9, gz(5, -9) + 1.3), (0, ridge_y, gz(0, ridge_y) + 3))])
+                         (P0, (5, -9, gz(5, -9) + 1.3), (0, ridge_y, gz(0, ridge_y) + 3))])
+
+    # Shot P: the Yuan-era portrait (a later PAINTING, not an image from 1206), on a dark
+    # backdrop floating far above the terrain; slow push-in with a moving key light.
+    from lib import archive as AR, layers as LY
+    po = Vector((0, 0, 900))
+    P.box("PortraitBackdrop", (14, 0.2, 9), tuple(po + Vector((0, 1.0, 0))), None,
+          M.flat("Backdrop", "#15110d", 0.9), bevel=0)
+    a = AR.asset("s02_chinggis_yuan_portrait")
+    LY.archive_placeholder("ChinggisPortrait", 2.6, 3.4, sh.fonts, "АРХИВЫН ДҮРС\n(татагдаагүй — орлуулах газар)",
+                           location=tuple(po), image=a["path"], fit="height", tone="#8a6a40",
+                           caption=f"{a['caption']}\n{a['credit']}")
+    pk = bpy.data.lights.new("PortraitKey", "AREA")
+    pk.size, pk.color = 2.0, C.kelvin_rgb(4800)
+    pko = C.link(bpy.data.objects.new("PortraitKey", pk))
+    for f, x, e in ((1, -3.0, 0.0), (P0, -3.0, 0.0), (P0 + 6, -2.5, 260.0), (B0, -0.5, 260.0), (B0 + 1, -0.5, 0.0)):
+        C.key(pko, "location", f, (po.x + x, po.y - 4.0, po.z + 2.0))
+        C.key(pk, "energy", f, e)
+    pko.rotation_euler = (math.radians(60), 0, math.radians(-25))
+    camP, aimP = sh.camera("CamP_Portrait", 50, fstop=4.0)
+    sh.move(camP, aimP, [(P0, po + Vector((0.5, -12.0, -0.35)), po + Vector((0, 0, -0.35))),
+                         (B0, po + Vector((-0.1, -10.2, -0.25)), po + Vector((0, 0, -0.25)))])
     camA.data.dof.focus_distance = 140
     camA.data.dof.focus_object = None
     camB, aimB = sh.camera("CamB_Overhead", 28)
@@ -101,14 +122,17 @@ def main():
     pc0.z, pc1.z = gz(pc0.x, pc0.y) + 2.2, gz(pc1.x, pc1.y) + 1.9
     sh.move(camC, aimC, [(C0, pc0, gc + Vector((0, 0, 2.5))), (END, pc1, gc + Vector((0, 0, 2.2)))])
     sh.cut("A_dawn", A0, camA)
+    sh.cut("P_portrait", P0, camP)
     sh.cut("B_overhead", B0, camB)
     sh.cut("C_approach", C0, camC)
 
     ts = sh.titles
-    sh.label()
+    # the reconstruction label is hidden while a genuine historical painting is on screen
+    sh.label(f_out=P0)
+    sh.label(f_in=B0 + 4)
     ts.band(t(1.0), END)
-    sh.card("Year", "1206", 1.25, -2.85, t(2.0), B0 - 2)
-    sh.card("State", "ИХ МОНГОЛ УЛС", 0.36, -3.75, t(3.0), B0 - 2, font="sans", color="#C8A56C", spacing=1.25)
+    sh.card("Year", "1206", 1.25, -2.85, t(2.0), P0 - 2)
+    sh.card("State", "ИХ МОНГОЛ УЛС", 0.36, -3.75, t(3.0), P0 - 2, font="sans", color="#C8A56C", spacing=1.25)
     sh.card("Khuraldai", "ИХ ХУРАЛДАЙ", 0.36, -2.95, B0 + int(0.6 * sh.fps), C0 - 2, font="sans",
             color="#C8A56C", spacing=1.25)
     sh.card("KhuraldaiNote", "Төрийн чухал асуудлыг хэлэлцдэг байсан ч дээд эрх хаанд төвлөрч байв",

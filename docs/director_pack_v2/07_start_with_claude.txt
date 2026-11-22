@@ -1,0 +1,12 @@
+Read CLAUDE.md, README_ARCHIVE_ASSETS.md, ASSET_MANIFEST.md, and assets/archival/manifest.json.
+This is an educational historical documentary named 16:17 about Republic Day, 26 Nov 1924.
+
+Archive work is approved only for six individual Wikimedia Commons files in the manifest, each marked public domain on its individual file page. The JPG/PNG binaries are NOT bundled in this pack because image network downloads were unavailable at package creation. On your connected workstation run:
+    python -m pip install pillow
+    python fetch_commons_assets.py
+    python fetch_commons_assets.py --verify-only
+Do not render new archive scenes until the verify-only command exits 0. Do not include corrupt HTML responses as textures.
+
+Integrate the six downloaded assets into the existing Blender Scene 02/03/04 pipeline. Keep the current render setup and preserve completed scenes. Use textured 3D planes/parallax; an example helper is blender_archival_card.py. Distinguish original photograph from painting in all captions. Scene 06 1924 Khural photograph is intentionally NOT auto-installed until its missing US rights tag is checked. No invented images are archival images.
+
+Keep source citations, authors, image date, and license texts from ASSET_MANIFEST.md in the final end credits. Use onscreen_captions.srt for initial timing, but retime to the actual movie.

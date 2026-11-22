@@ -1,74 +1,75 @@
 [
   {
-    "id": "01",
+    "scene": "01",
+    "name": "16:17 opening",
     "start": 0,
     "end": 17,
-    "slug": "the_moment",
-    "date": "1924-11-26",
-    "camera": "macro dolly",
-    "asset_mode": "procedural_3d"
+    "archive_assets": [],
+    "style": "3D clock + manuscript, no unlicensed document scan"
   },
   {
-    "id": "02",
+    "scene": "02",
+    "name": "1206 Mongol state",
     "start": 17,
     "end": 48,
-    "slug": "foundation_1206",
-    "date": "1206",
-    "camera": "low angle wide to orbit",
-    "asset_mode": "stylized_3d"
+    "archive_assets": [
+      "s02_chinggis_yuan_portrait.jpg"
+    ],
+    "style": "historical painting + original 3D landscape, depict painting as later representation"
   },
   {
-    "id": "03",
+    "scene": "03",
+    "name": "1911 independence",
     "start": 48,
     "end": 70,
-    "slug": "independence_1911",
-    "date": "1911-12-29",
-    "camera": "2_5d parallax",
-    "asset_mode": "archive_if_permitted"
+    "archive_assets": [
+      "s03_bogd_sharav.jpg",
+      "s03_gandan_1913.jpg",
+      "s03_tsagaan_hill_1913.jpg"
+    ],
+    "style": "Bogd portrait painting + 1913 photos as period context, not 1911 eyewitness images"
   },
   {
-    "id": "04",
+    "scene": "04",
+    "name": "1921 revolution",
     "start": 70,
     "end": 97,
-    "slug": "revolution_1921",
-    "date": "1921",
-    "camera": "track through image layers",
-    "asset_mode": "archive_if_permitted"
+    "archive_assets": [
+      "s04_revolutionaries_1921.jpg",
+      "s04_kyakhta_1921.jpg"
+    ],
+    "style": "documentary photos in 3D parallax layers"
   },
   {
-    "id": "05",
+    "scene": "05",
+    "name": "1924 political transition",
     "start": 97,
     "end": 121,
-    "slug": "decision_1924",
-    "date": "1924-05",
-    "camera": "desk macro",
-    "asset_mode": "procedural_3d"
+    "archive_assets": [],
+    "style": "3D symbolic design, no unlicensed portraits"
   },
   {
-    "id": "06",
+    "scene": "06",
+    "name": "1924 constitution",
     "start": 121,
     "end": 167,
-    "slug": "constitution_1924",
-    "date": "1924-11-26T16:17",
-    "camera": "table-to-gallery dissolve",
-    "asset_mode": "procedural_and_archive"
+    "archive_assets": [],
+    "style": "3D scene with typography, 1924 Khural photo excluded pending US rights check"
   },
   {
-    "id": "07",
+    "scene": "07",
+    "name": "Constitution changes",
     "start": 167,
     "end": 207,
-    "slug": "rights_and_limits",
-    "date": "1924",
-    "camera": "infographic 3d transitions",
-    "asset_mode": "motion_graphics"
+    "archive_assets": [],
+    "style": "Original vector info graphics, 6 chapters 50 articles"
   },
   {
-    "id": "08",
+    "scene": "08",
+    "name": "Legacy / conclusion",
     "start": 207,
     "end": 240,
-    "slug": "legacy",
-    "date": "1992-and-present",
-    "camera": "wide sunrise pullback",
-    "asset_mode": "stylized_3d"
+    "archive_assets": [],
+    "style": "Original 3D Mongolia environment, end credits/attributions"
   }
 ]

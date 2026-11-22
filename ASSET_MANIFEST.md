@@ -23,32 +23,34 @@ template; this file tracks the actual state of the project.
 - To use a real scan once its rights are cleared:
   `blender -b --factory-startup --python scripts/build_scene01.py -- --manuscript-image assets/archival/<scan>.png`
 
-## Archival images (Scenes 03, 04)
+## Archival images (Scenes 02, 03, 04) — director pack v2
 
-All from Wikimedia Commons, marked **Public domain** on their file pages
-(checked through the Commons API `extmetadata`, 2026-11-22). Public-domain status
-can depend on the country, so the file pages are linked for the teacher to check.
-Each image carries an on-screen attribution caption.
+The approved list is the six Wikimedia Commons files in `assets/archival/manifest.json`, with full
+license and credit text in `assets/archival/LICENSES_AND_CREDITS.md` (from director pack v2, checked 2026-11-22).
+`fetch_commons_assets.py` re-checks each license through the Commons API and rejects HTML/corrupt
+responses. `python3 fetch_commons_assets.py --verify-only` must exit 0 before Scenes 02–04 are rendered.
 
-| File (`assets/archival/`) | Scene | What it is | Author / date | Commons page | License |
-|---|---|---|---|---|---|
-| `sharav_bogd_khan_painting.jpg` | 03 | Portrait of the Bogd Khan: **a painting**, not a photograph | Marzan Sharav (1869–1939), before 20 May 1924 | https://commons.wikimedia.org/wiki/File:Sharav_bogd_khan.jpg | Public domain |
-| `passet_1913_gandan_khuree.jpg` | 03 | Stupas at Gandan, Khüree (Urga), 21 July 1913, autochrome | Stéphane Passet (1875–1942), Albert Kahn "Archives de la planète" | https://commons.wikimedia.org/wiki/File:1913_Gandan_Monastery_in_Khuree.jpg | Public domain |
-| `passet_1913_tsagaan_hill_khuree.jpg` | 03 | Lamas on Tsagaan hill, Khüree, July 1913, autochrome (genuine early colour process, not colourised) | Stéphane Passet | https://commons.wikimedia.org/wiki/File:June_23,_1913_in_Khuree.jpg | Public domain |
-| `mongolian_revolutionaries_1921.jpg` | 04 | B. Shumyatsky with Mongolian revolutionaries, Sept 1921 | unknown author | https://commons.wikimedia.org/wiki/File:Mongolian_Revolutionaries.jpg | Public domain (anonymous, >100 years) |
+| File | Scene | Kind | Author / date |
+|---|---|---|---|
+| `s02_chinggis_yuan_portrait.jpg` | 02 | **painting**, Yuan era (13th–14th c.), not an image from 1206 | unknown Yuan painter, National Palace Museum, Taipei |
+| `s03_bogd_sharav.jpg` | 03 | **painting**: portrait of the Bogd Khan | Marzan Sharav (1869–1939), before 1924 |
+| `s03_gandan_1913.jpg` | 03 | photograph (autochrome), Gandan, Khüree | Stéphane Passet, 21 July 1913 |
+| `s03_tsagaan_hill_1913.jpg` | 03 | photograph (autochrome), Tsagaan hill, Khüree | Stéphane Passet, 23 July 1913 (the Commons title wrongly says June) |
+| `s04_revolutionaries_1921.jpg` | 04 | photograph: Mongolian revolutionaries with B. Shumyatsky | unknown, Sept 1921 |
+| `s04_kyakhta_1921.jpg` | 04 | photograph: Mongolian and Soviet revolutionaries in Kyakhta | unknown, 19 March 1921 |
 
-Rejected: a 1925 map of Outer Mongolia (shows borders, which the art direction warns against);
-`Bogd Khan (1).jpg` (date given as "19th century", which is not credible);
-`Proclamation of Niislel Khuree.jpg` (a 2023 photo of a museum object with an unknown author, so the license is unclear).
+Every card shows its caption (painting vs photograph, author, date, "Нийтийн өмч"), and the Scene 08
+end roll lists all six with Commons pages (`scripts/lib/archive.py::credits_lines`).
+Excluded (see the v2 manifest): the 1924 Great Khural photo (no independent US PD tag), the 1924–30 flag
+(design disputed), the Niislel Khüree proclamation, `Bogd Khan (1).jpg`, and the 1925 map.
 
 ## Placeholders still open (later scenes)
 
 | Planned file | Use | Candidate source | Status |
 |---|---|---|---|
 | `assets/archival/original_constitution_scan.*` | 1924 manuscript pages (Scene 06, 08) | https://old.parliament.mn/nn/63426/ | **Rights NOT verified**: being viewable online does not grant reuse rights. Until cleared, scenes use the procedural abstract manuscript plus a label. |
-| `assets/archival/great_khural_1924_photo.*` | Delegates in 1924 (Scene 06) | https://mongoltoli.mn/history/h/701 (ШУА Түүх, археологийн хүрээлэн) | **Rights NOT verified**: use silhouette geometry until cleared |
-| `assets/archival/bogd_khan_photo.*` | Scene 03 | to research | Not sourced, so a silhouette placeholder is used |
+| `assets/archival/great_khural_1924_photo.*` | Delegates in 1924 (Scene 06) | Commons file listed as excluded in the v2 manifest | **Excluded pending a US rights check**: Scene 06 uses anonymous silhouettes |
 | `assets/music/*` | Score | Original composition or verified CC0/public domain | Not sourced |
 | `audio/sceneXX.wav` | Mongolian narration | ElevenLabs Eleven v4 (`mn`), optional closed TTS, or a human narrator | Not generated |
 
-I have downloaded no external images, models or music, and I have not invented any URLs.
+No external models or music have been downloaded and no URLs were invented. The only external images are the six approved Commons files above.

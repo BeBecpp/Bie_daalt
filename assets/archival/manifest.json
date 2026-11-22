@@ -1,0 +1,134 @@
+{
+  "project": "16:17 — Republic Day Cinematic Documentary",
+  "checked_on": "2026-11-22",
+  "source_policy": "Wikimedia Commons individual file-page public domain verified at research time. Downloader rechecks structured license metadata and rejects non-image/HTML responses. Authorship/date captions are not a transfer of rights.",
+  "files_bundled": false,
+  "files_bundled_note": "Online image downloads are unavailable in the creation environment. Run fetch_commons_assets.py on an internet-connected machine to obtain verified real image bytes. No archival images are fabricated.",
+  "approved_assets": [
+    {
+      "id": "s02_chinggis_yuan_portrait",
+      "filename": "s02_chinggis_yuan_portrait.jpg",
+      "commons_title": "File:YuanEmperorAlbumGenghisPortrait.jpg",
+      "commons_page": "https://commons.wikimedia.org/wiki/File:YuanEmperorAlbumGenghisPortrait.jpg",
+      "original_file_redirect": "https://commons.wikimedia.org/wiki/Special:Redirect/file/YuanEmperorAlbumGenghisPortrait.jpg",
+      "scene": "02",
+      "display_title": "13-14-р зууны Чингис хааны хөрөг (Юань үеийн дүрслэл)",
+      "date": "14th century (later portrait, NOT an eyewitness photograph)",
+      "author": "Unknown Yuan painter; digitized by National Palace Museum, Taipei",
+      "license_label": "Public domain (PD-old-100; PD-US; PD-Art faithful reproduction)",
+      "license_family": "Public domain",
+      "caption_mn": "Чингис хааны Юань үеийн хөрөг. XIII–XIV зууны дүрслэл; 1206 оны бодит зураг биш.",
+      "preferred_download_width": 1600,
+      "role": "historical painting",
+      "verified_page_at": "2026-11-22"
+    },
+    {
+      "id": "s03_bogd_sharav",
+      "filename": "s03_bogd_sharav.jpg",
+      "commons_title": "File:Bogd Khan.jpg",
+      "commons_page": "https://commons.wikimedia.org/wiki/File:Bogd_Khan.jpg",
+      "original_file_redirect": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Bogd%20Khan.jpg",
+      "scene": "03",
+      "display_title": "Богд хааны хөрөг зураг",
+      "date": "Painted no later than 1924",
+      "author": "Марзан Шарав (1869–1939)",
+      "license_label": "Public domain (PD-old-80; PD-US-expired)",
+      "license_family": "Public domain",
+      "caption_mn": "Богд хааны хөрөг — Марзан Шаравын уран зураг, гэрэл зураг биш.",
+      "preferred_download_width": 0,
+      "role": "historical painting",
+      "verified_page_at": "2026-11-22"
+    },
+    {
+      "id": "s03_gandan_1913",
+      "filename": "s03_gandan_1913.jpg",
+      "commons_title": "File:1913 Gandan Monastery in Khuree.jpg",
+      "commons_page": "https://commons.wikimedia.org/wiki/File:1913_Gandan_Monastery_in_Khuree.jpg",
+      "original_file_redirect": "https://commons.wikimedia.org/wiki/Special:Redirect/file/1913%20Gandan%20Monastery%20in%20Khuree.jpg",
+      "scene": "03",
+      "display_title": "Нийслэл хүрээ, Гандан орчим, 1913",
+      "date": "21 July 1913",
+      "author": "Stéphane Passet (1875–1942); Musée Albert-Kahn",
+      "license_label": "Public domain (life+70 expired; PD-US-expired)",
+      "license_family": "Public domain",
+      "caption_mn": "Нийслэл хүрээ, Гандан орчмын 1913 оны бодит өнгөт гэрэл зураг. Стефан Пассе.",
+      "preferred_download_width": 0,
+      "role": "real archive photo",
+      "verified_page_at": "2026-11-22"
+    },
+    {
+      "id": "s03_tsagaan_hill_1913",
+      "filename": "s03_tsagaan_hill_1913.jpg",
+      "commons_title": "File:June 23, 1913 in Khuree.jpg",
+      "commons_page": "https://commons.wikimedia.org/wiki/File:June_23,_1913_in_Khuree.jpg",
+      "original_file_redirect": "https://commons.wikimedia.org/wiki/Special:Redirect/file/June%2023,%201913%20in%20Khuree.jpg",
+      "scene": "03",
+      "display_title": "Нийслэл хүрээ, Цагаан толгой, 1913",
+      "date": "23 July 1913 (Commons file title mistakenly says June)",
+      "author": "Stéphane Passet (1875–1941); Musée Albert-Kahn",
+      "license_label": "Public domain (PD-old-80; PD-US-expired)",
+      "license_family": "Public domain",
+      "caption_mn": "Цагаан толгой, Нийслэл хүрээ, 1913 оны 7-р сарын 23. Стефан Пассе.",
+      "preferred_download_width": 0,
+      "role": "real archive photo",
+      "verified_page_at": "2026-11-22"
+    },
+    {
+      "id": "s04_revolutionaries_1921",
+      "filename": "s04_revolutionaries_1921.jpg",
+      "commons_title": "File:Mongolian Revolutionaries.jpg",
+      "commons_page": "https://commons.wikimedia.org/wiki/File:Mongolian_Revolutionaries.jpg",
+      "original_file_redirect": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Mongolian%20Revolutionaries.jpg",
+      "scene": "04",
+      "display_title": "Монголын хувьсгалчид, 1921",
+      "date": "September 1921",
+      "author": "Unknown photographer",
+      "license_label": "Public domain (PD-Mongolia; PD-1996/URAA in US)",
+      "license_family": "Public domain",
+      "caption_mn": "1921 оны 9-р сар: Монголын хувьсгалчид, Зөвлөлтийн төлөөлөгчдийн хамт.",
+      "preferred_download_width": 0,
+      "role": "real archive photo",
+      "verified_page_at": "2026-11-22"
+    },
+    {
+      "id": "s04_kyakhta_1921",
+      "filename": "s04_kyakhta_1921.jpg",
+      "commons_title": "File:Mongolian and Soviet revolutionaries in Kyakhta, March 1921.jpg",
+      "commons_page": "https://commons.wikimedia.org/wiki/File:Mongolian_and_Soviet_revolutionaries_in_Kyakhta,_March_1921.jpg",
+      "original_file_redirect": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Mongolian%20and%20Soviet%20revolutionaries%20in%20Kyakhta,%20March%201921.jpg",
+      "scene": "04",
+      "display_title": "Ар Хиагтын хувьсгалчдын зураг, 1921",
+      "date": "19 March 1921",
+      "author": "Unknown photographer",
+      "license_label": "Public domain (PD-Mongolia; PD-Russia; PD-US; PD-1996)",
+      "license_family": "Public domain",
+      "caption_mn": "Ар Хиагт, 1921 оны 3-р сарын 19. Монгол, Зөвлөлтийн хувьсгалын төлөөлөгчид.",
+      "preferred_download_width": 0,
+      "role": "real archive photo",
+      "verified_page_at": "2026-11-22"
+    }
+  ],
+  "excluded_from_auto_install": [
+    {
+      "commons_title": "File:Анхдугаар үндсэн хуулийг хэлэлцэн батласан Улсын анхдугаар их хурал.png",
+      "reason": "Commons labels PD-Mongolia but its file page lacks an independent United States PD tag; excluded from automatic global reuse pending an explicit rights check",
+      "event": "1924 First State Great Khural"
+    },
+    {
+      "commons_title": "File:Flag of the People's Republic of Mongolia (1924-1930).png",
+      "reason": "CC BY-SA 4.0 but the Commons description explicitly warns that historic use/flag design is disputed; excluded for historical accuracy"
+    },
+    {
+      "commons_title": "File:Proclamation of Niislel Khuree.jpg",
+      "reason": "Original photographic/archival rights and re-publication conditions need an additional check; excluded conservatively"
+    },
+    {
+      "commons_title": "File:Bogd Khan (1).jpg",
+      "reason": "Date/source data are inconsistent; excluded to avoid falsely representing a time-specific image"
+    },
+    {
+      "commons_title": "File:Outer Mongolia (Khalkha).jpg",
+      "reason": "A 1925 geographic depiction, not suitable as evidence of accurately delimited 1924 borders"
+    }
+  ]
+}

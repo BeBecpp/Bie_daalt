@@ -25,21 +25,17 @@ def main():
     sh = Shot("03", "Independence1911", 22.0, extra=extra, world_hex="#1a140e", world_strength=0.4)
     t, END = sh.t, sh.n_frames
     LY.paper_backdrop("Backdrop", 16, 9, (0, 6, 0), tone="#b59a72")
-    arch = lambda f: os.path.join(C.PROJECT_ROOT, "assets", "archival", f)
-    # public-domain sources, see ASSET_MANIFEST.md (Wikimedia Commons pages)
-    LY.archive_placeholder("BogdKhanPortrait", 2.4, 3.0, sh.fonts,
-                           "АРХИВЫН ЗУРАГ\n(эрх нь баталгаажаагүй —\nорлуулах газар)",
-                           location=(-2.3, 2.0, 0.2), rot=(0, 0, math.radians(6)),
-                           image=sh.args.photo or arch("sharav_bogd_khan_painting.jpg"),
-                           caption="Богд хаан — Марзан Шарав, уран зураг · Нийтийн өмч")
-    LY.archive_placeholder("Khuree1913", 3.4, 2.4, sh.fonts, "АРХИВЫН ЗУРАГ\n(орлуулах газар)",
-                           location=(3.4, 3.6, 0.9), rot=(0, 0, math.radians(-8)), tone="#7a6a55",
-                           image=arch("passet_1913_gandan_khuree.jpg"), fit="width",
-                           caption="Нийслэл хүрээ, Гандан, 1913 — Стефан Пассе (А. Каны архив) · Нийтийн өмч")
-    LY.archive_placeholder("Khuree1913b", 2.8, 2.0, sh.fonts, "АРХИВЫН ЗУРАГ\n(орлуулах газар)",
-                           location=(6.8, 5.0, -0.6), rot=(0, 0, math.radians(5)), tone="#7a6a55",
-                           image=arch("passet_1913_tsagaan_hill_khuree.jpg"), fit="width",
-                           caption="Нийслэл хүрээ, Цагаан толгой, 1913 — Стефан Пассе · Нийтийн өмч")
+    from lib import archive as AR
+    # approved public-domain assets (assets/archival/manifest.json); else labelled placeholders
+    for name, aid, size, loc, rz, fit in (
+            ("BogdKhanPortrait", "s03_bogd_sharav", (2.4, 3.0), (-2.3, 2.0, 0.2), 6, "height"),
+            ("Khuree1913", "s03_gandan_1913", (3.4, 2.4), (3.4, 3.6, 0.9), -8, "width"),
+            ("Khuree1913b", "s03_tsagaan_hill_1913", (2.8, 2.0), (6.8, 5.0, -0.6), 5, "width")):
+        a = AR.asset(aid)
+        img = sh.args.photo if (aid == "s03_bogd_sharav" and sh.args.photo) else a["path"]
+        LY.archive_placeholder(name, size[0], size[1], sh.fonts, "АРХИВЫН ЗУРАГ\n(татагдаагүй — орлуулах газар)",
+                               location=loc, rot=(0, 0, math.radians(rz)), tone="#7a6a55", image=img, fit=fit,
+                               caption=f"{a['caption']}\n{a['credit']}")
     # extruded date and its red underline drawn by the 'pen'
     brass = M.metal("Brass", "#C8A56C", 0.3)
     yr = C.text_object("Year1911", "1911", sh.fonts["serif"], size=1.5, extrude=0.08,

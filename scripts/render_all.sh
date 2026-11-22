@@ -22,6 +22,11 @@ for S in $SCENES; do
   EXTRA=()
   DVAR="D${S}"; [[ -n "${!DVAR:-}" ]] && EXTRA+=(--duration "${!DVAR}")
   [[ -n "${SAMPLES:-}" ]] && EXTRA+=(--samples "$SAMPLES")
+  # archive scenes render only after the approved images verify (director pack v2 rule)
+  if [[ "$S" =~ ^0[234]$ ]] && ! python3 fetch_commons_assets.py --verify-only > "output/logs/verify_${S}.log" 2>&1; then
+    echo "[1617] scene $S SKIPPED: archival images not verified (run: python3 fetch_commons_assets.py)"
+    continue
+  fi
   # resume: skip scenes whose MP4 already exists
   if [[ -f "output/scene${S}_${QUALITY}.mp4" ]]; then echo "[1617] scene $S done, skipping"; continue; fi
   echo "[1617] === scene $S ($(date +%H:%M)) ==="

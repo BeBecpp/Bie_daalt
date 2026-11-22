@@ -113,7 +113,7 @@ def archive_placeholder(name, w, h, fonts, label, location=(0, 0, 0), rot=(0, 0,
         txt.data.materials.append(M.emission(f"{name}_LabelMat", "#e8d6b7", 1.2))
         txt.parent = root
     if image and caption:
-        cap = C.text_object(f"{name}_Caption", caption, fonts["sans_regular"], size=0.11, collection=collection,
+        cap = C.text_object(f"{name}_Caption", caption, fonts["sans_regular"], size=max(0.13, h * 0.05), collection=collection,
                             location=(0, -0.01, -h * 0.57 - 0.16))
         cap.rotation_euler.x = 1.5708
         cap.data.materials.append(M.emission(f"{name}_CaptionMat", "#e8d6b7", 1.0))
