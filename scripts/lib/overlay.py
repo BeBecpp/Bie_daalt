@@ -104,6 +104,21 @@ class TitleScene:
         bpy_mesh.materials.append(mat)
         return obj
 
+    def band(self, f_in, f_out, strength=1.0, fade=10):
+        """Soft dark gradient across the lower third (stacked translucent
+        strips) so captions read over bright parchment and dark desk alike."""
+        n, top = 24, 3.4                      # strips over the bottom 3.4 units
+        peaks = [0.62 * (1 - i / n) ** 1.6 for i in range(n)]
+        strips = []
+        h = top / n
+        for i, pk in enumerate(peaks):
+            y = -4.5 + h * i + h / 2
+            st = self.rule(f"Band{i}_{int(f_in)}", self.WIDTH + 1, (0, y, -0.5), color="#000000",
+                           thickness=h * 1.02, strength=0.0)
+            TitleScene.fade(st, f_in, f_in + fade, f_out - fade, f_out, peak=pk * strength)
+            strips.append(st)
+        return strips
+
     @staticmethod
     def fade(obj, f_in, f_full, f_out=None, f_gone=None, peak=1.0):
         sock = obj.active_material.node_tree.nodes["Opacity"].inputs["Fac"]
@@ -214,3 +229,53 @@ def build_compositor(main, titles_scene, fade_in=(1, 30), vignette=0.55, bloom=0
     L.new(last, view.inputs["Image"])
     main.render.use_compositing = True
     return nt
+
+
+# --------------------------------------------------------------------------
+# Animated counters (e.g. "77 төлөөлөгч"): text bodies updated per frame.
+# --------------------------------------------------------------------------
+COUNTER_HANDLER_SRC = '''
+import bpy
+
+def _ease(x):
+    x = max(0.0, min(1.0, x))
+    return x * x * (3 - 2 * x)
+
+def _1617_counters(scene, *args):
+    f = scene.frame_current
+    for ob in bpy.data.objects:
+        if ob.type != "FONT" or "counter_fmt" not in ob:
+            continue
+        f0, f1 = ob["counter_f0"], ob["counter_f1"]
+        v0, v1 = ob["counter_v0"], ob["counter_v1"]
+        t = _ease((f - f0) / max(1, f1 - f0))
+        body = ob["counter_fmt"].format(n=int(round(v0 + (v1 - v0) * t)))
+        if ob.data.body != body:
+            ob.data.body = body
+
+def register():
+    for h in list(bpy.app.handlers.frame_change_pre):
+        if getattr(h, "__name__", "") == "_1617_counters":
+            bpy.app.handlers.frame_change_pre.remove(h)
+    bpy.app.handlers.frame_change_pre.append(_1617_counters)
+
+register()
+'''
+
+
+def add_counter(obj, f0, f1, v0, v1, fmt="{n}"):
+    obj["counter_f0"], obj["counter_f1"] = int(f0), int(f1)
+    obj["counter_v0"], obj["counter_v1"] = int(v0), int(v1)
+    obj["counter_fmt"] = fmt
+    obj.data.body = fmt.format(n=v0)
+
+
+def install_counter_handler():
+    """Registers now and stores the handler as a text block that re-registers
+    when the .blend is opened (needs 'Auto Run Python Scripts' in the GUI)."""
+    txt = bpy.data.texts.get("1617_counters.py") or bpy.data.texts.new("1617_counters.py")
+    txt.from_string(COUNTER_HANDLER_SRC)
+    txt.use_module = True
+    exec(compile(COUNTER_HANDLER_SRC, "1617_counters.py", "exec"), {"__name__": "1617_counters"})
+    for sc in bpy.data.scenes:
+        sc.render.use_lock_interface = True

@@ -425,3 +425,46 @@ def dust_field(name, bounds_min, bounds_max, count=1400, radius=(0.00012, 0.0004
     mod = obj.modifiers.new("Dust", "NODES")
     mod.node_group = ng
     return obj
+
+
+def animate_watch(watch, hit_frame, f_start, f_end, fps=24, hms=(16, 17, 0)):
+    """Real-time clockwork: second hand dead-beats once per second (tiny
+    recoil), minute/hour hands creep; reads exactly `hms` at hit_frame."""
+    from .common import key, set_interpolation
+    t_hit = hms[0] * 3600 + hms[1] * 60 + hms[2]
+    for f in range(f_start, f_end + 1):
+        t = t_hit + (f - hit_frame) / fps
+        whole = math.floor(t)
+        frac = t - whole
+        if frac < 0.06:
+            step = frac / 0.06 * 1.08
+        elif frac < 0.14:
+            step = 1.08 - (frac - 0.06) / 0.08 * 0.08
+        else:
+            step = 1.0
+        sec_angle = ((whole - 1 + step) % 60) / 60 * math.tau
+        key(watch["second"], "rotation_euler", f, -sec_angle, index=2)
+        key(watch["minute"], "rotation_euler", f, -((t / 60.0) % 60) / 60 * math.tau, index=2)
+        key(watch["hour"], "rotation_euler", f, -((t / 3600.0) % 12) / 12 * math.tau, index=2)
+    for h in ("second", "minute", "hour"):
+        set_interpolation(watch[h], "LINEAR")
+
+
+def page_stack(name, n, size, mats, location, collection=None, rot_z=0.0, dz=0.00045):
+    """n thin sheets whose origin sits on their LEFT edge (the spine), so
+    they can be turned with rotation_euler.y plus a bend modifier."""
+    pages = []
+    for i in range(n):
+        pg = parchment_sheet(f"{name}{i:02d}", size=size, res=(36, 50), mat=mats[i % len(mats)],
+                             collection=collection, seed=40 + i, curl=0.15)
+        for v in pg.data.vertices:
+            v.co.x += size[0] / 2
+        pg.modifiers["Thickness"].thickness = 0.00025
+        bend = pg.modifiers.new("Curl", "SIMPLE_DEFORM")
+        bend.deform_method = "BEND"
+        bend.deform_axis = "Y"
+        bend.angle = 0.0
+        pg.location = (location[0], location[1], location[2] + (n - i) * dz)
+        pg.rotation_euler.z = rot_z
+        pages.append(pg)            # pages[0] is the top sheet
+    return pages

@@ -1,0 +1,74 @@
+"""SCENE 04 — 1921, CHANGE  (storyboard 01:10–01:37, 27 s)
+
+Cool, desaturated 2.5D: archival PLACEHOLDER frames hanging at different
+depths, tracked by a gently hand-held camera (low-amplitude noise, no random
+jitter). Key fact on screen: the monarchy was NOT abolished in 1921; the
+Bogd Khan remained head of state until his death in 1924.
+"""
+import math
+import os
+import sys
+
+import bpy
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from lib import common as C, layers as LY, materials as M, props as P  # noqa: E402
+from lib.shot import Shot  # noqa: E402
+
+
+def main():
+    sh = Shot("04", "Change1921", 27.0, world_hex="#0f1214", world_strength=0.5)
+    t, END = sh.t, sh.n_frames
+    sh.scene.view_settings.look = "AgX - Base Contrast"
+    LY.paper_backdrop("Backdrop", 26, 12, (0, 9, 0), tone="#8d949a")
+    frames = [((-3.2, 1.0, 0.4), (2.6, 1.8), 5, "АРХИВЫН ЗУРАГ · 1921\n(орлуулах газар)"),
+              ((0.4, 3.0, -0.2), (3.0, 2.0), -4, "АРХИВЫН ЗУРАГ\n(орлуулах газар)"),
+              ((3.8, 1.6, 0.6), (2.0, 2.6), 7, "АРХИВЫН ЗУРАГ\n(орлуулах газар)"),
+              ((7.4, 4.0, -0.1), (3.2, 2.1), -6, "АРХИВЫН ЗУРАГ\n(орлуулах газар)")]
+    for i, (loc, (w, h), rz, lab) in enumerate(frames):
+        LY.archive_placeholder(f"Photo{i}", w, h, sh.fonts, lab, location=loc,
+                               rot=(0, 0, math.radians(rz)), tone="#7d8287")
+    yr = C.text_object("Year1921", "1921", sh.fonts["serif"], size=1.6, extrude=0.08, location=(-1.6, -0.6, 1.25))
+    yr.rotation_euler.x = math.radians(90)
+    yr.data.bevel_depth = 0.012
+    yr.data.materials.append(M.metal("Steel", "#b8bcc0", 0.3))
+    P.dust_field("Dust", (-6, -3, -3), (10, 5, 3), count=1500, radius=(0.004, 0.01), wander=0.25,
+                 drift=(0.04, 0.0, 0.02), mat=M.dust())
+    key = bpy.data.lights.new("Key", "AREA")
+    key.size, key.energy, key.color = 4.0, 1100, C.kelvin_rgb(6500)
+    ko = C.link(bpy.data.objects.new("Key", key))
+    ko.location = (-3, -4, 5)
+    C.look_at(ko, (2, 2, 0))
+    rim = bpy.data.lights.new("Rim", "AREA")
+    rim.size, rim.energy, rim.color = 2.0, 250, C.kelvin_rgb(4200)
+    ro = C.link(bpy.data.objects.new("Rim", rim))
+    ro.location = (6, 6, 3)
+    C.look_at(ro, (2, 2, 0))
+
+    cam, aim = sh.camera("Cam", 35, fstop=3.2)
+    sh.move(cam, aim, [(1, (-4.6, -5.2, 0.3), (-2.4, 2.0, -0.2)),
+                       (t(13), (2.0, -5.6, 0.1), (2.2, 2.0, 0.0)),
+                       (END, (7.0, -4.6, 0.5), (6.0, 3.0, 0.2))])
+    # gentle hand-held feel: low-amplitude noise on the aim point (the camera
+    # uses a Track-To constraint, so noise on its own rotation would be ignored)
+    for fc in C.fcurves_of(aim):
+        if fc.data_path == "location":
+            mod = fc.modifiers.new("NOISE")
+            mod.scale = 30.0
+            mod.strength = 0.05
+            mod.phase = fc.array_index * 17.0
+    sh.cut("A", 1, cam)
+
+    sh.label()
+    sh.titles.band(t(1.0), END)
+    sh.card("Rev", "1921 · Үндэсний ардчилсан хувьсгал", 0.5, -3.1, t(1.5), t(12))
+    sh.card("Change", "Гадаадын цэргийн эзэрхийллээс ангижрах · шинэ төрийн байгуулал", 0.3, -3.8, t(4), t(12),
+            font="sans_regular")
+    sh.card("NotYet", "Гэхдээ хаант засаг тэр даруй халагдсангүй", 0.5, -3.1, t(15), END + 30)
+    sh.card("Bogd", "Богд хаан 1924 он хүртэл төрийн тэргүүн хэвээр байв", 0.32, -3.8, t(16.5), END + 30,
+            font="sans", color="#C8A56C")
+    sh.finish(fade_in=(1, t(1.0)))
+
+
+if __name__ == "__main__":
+    main()
