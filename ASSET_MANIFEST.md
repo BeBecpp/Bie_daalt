@@ -44,13 +44,19 @@ end roll lists all six with Commons pages (`scripts/lib/archive.py::credits_line
 Excluded (see the v2 manifest): the 1924 Great Khural photo (no independent US PD tag), the 1924–30 flag
 (design disputed), the Niislel Khüree proclamation, `Bogd Khan (1).jpg`, and the 1925 map.
 
+## Narration and music
+
+| Asset | Origin | Terms |
+|---|---|---|
+| `audio/narration/scene01–08.mp3` | ElevenLabs Eleven v4 (connector), voice «Bilguun» (Mongolian, calm narration), text verbatim from `docs/director_pack/08_voiceover_paste_ready/` = `02_narration_mn.md` | ElevenLabs **free** plan: non-commercial use with attribution. Credited in the end roll ("ElevenLabs Eleven v4, «Bilguun» хоолой (elevenlabs.io)"). For commercial/public distribution, regenerate on a paid plan. |
+| `audio/music/score_ambient.wav` | Original, synthesised from scratch by `scripts/make_score.py` (numpy + FFmpeg) | Project-owned |
+| Clock ticks, transition swells, wind, room tone | Synthesised in `scripts/assemble_final.py` (FFmpeg `aevalsrc` / `anoisesrc`) | Project-owned |
+
 ## Placeholders still open (later scenes)
 
 | Planned file | Use | Candidate source | Status |
 |---|---|---|---|
 | `assets/archival/original_constitution_scan.*` | 1924 manuscript pages (Scene 06, 08) | https://old.parliament.mn/nn/63426/ | **Rights NOT verified**: being viewable online does not grant reuse rights. Until cleared, scenes use the procedural abstract manuscript plus a label. |
 | `assets/archival/great_khural_1924_photo.*` | Delegates in 1924 (Scene 06) | Commons file listed as excluded in the v2 manifest | **Excluded pending a US rights check**: Scene 06 uses anonymous silhouettes |
-| `assets/music/*` | Score | Original composition or verified CC0/public domain | Not sourced |
-| `audio/sceneXX.wav` | Mongolian narration | ElevenLabs Eleven v4 (`mn`), optional closed TTS, or a human narrator | Not generated |
 
 No external models or music have been downloaded and no URLs were invented. The only external images are the six approved Commons files above.

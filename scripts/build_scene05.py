@@ -95,13 +95,15 @@ def main():
                  mat=M.dust())
     sh.label()
     sh.titles.band(t(1.0), END)
-    sh.card("Date", "1924 · 5 дугаар сар", 0.55, -3.0, t(1.2), B0 - 2)
-    sh.card("Bogd", "Богд хаан таалал төгсөв", 0.36, -3.75, t(2.0), B0 - 2, font="sans", color="#C8A56C",
-            spacing=1.1)
+    sh.titles.band(C0, END + 30, strength=0.9)  # extra shade over the bright manuscript
+    sh.card("Date", "1924 · 5 дугаар сар", 0.55, -3.0, t(1.2), B0 - 2, halo=0.0, plate=0.7)
+    sh.card("Bogd", "Богд хаан таалал төгсөв", 0.36, -3.85, t(2.0), B0 - 2, font="sans", color="#D9B46A",
+            spacing=1.1, halo=0.0, plate=0.7)
     sh.card("Draft", "Үндсэн хуулийн төсөл", 0.55, -3.0, B0 + int(0.6 * sh.fps), C0 - 2)
     sh.card("Draft2", "Хэд хэдэн үзэл баримтлал, гадаад орны туршлагыг хэлэлцэв", 0.3, -3.75,
             B0 + int(1.2 * sh.fps), C0 - 2, font="sans_regular")
-    sh.card("Choice", "Бүгд найрамдах засаглалын хэлбэр сонгогдов", 0.48, -3.3, C0 + int(0.8 * sh.fps), END + 30)
+    sh.card("Choice", "Бүгд найрамдах засаглалын хэлбэр сонгогдов", 0.48, -3.3, C0 + int(0.8 * sh.fps), END + 30,
+            halo=0.0, plate=0.7)
     sh.finish(fade_in=(1, t(1.0)))
 
 

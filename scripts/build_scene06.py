@@ -156,7 +156,7 @@ def main():
         C.key(sw, "energy", f, e)
 
     # ------------------------------------------------------------ dust (desk)
-    P.dust_field("Dust", (-0.25, -0.35, 0.004), (0.28, 0.15, 0.25), count=2200,
+    P.dust_field("Dust", (-0.22, -0.30, 0.004), (0.26, 0.12, 0.17), count=900,
                  radius=(0.00015, 0.0006), collection=fx_col, mat=M.dust())
 
     # ------------------------------------------------------------ cameras
@@ -193,8 +193,8 @@ def main():
         C.key(aimC, "location", f, tuple(a))
     camD, aimD = camera("CamD_Article", 50, fstop=4.0)
     for f, c, a, fs in ((D0, (-0.13, -0.15, 0.085), (-0.05, 0.05, 0.004), 4.5),
-                        (TITLE, (0.02, -0.25, 0.14), (0.0, 0.04, 0.004), 5.6),
-                        (END, (0.10, -0.62, 0.40), (0.02, 0.06, 0.0), 8.0)):
+                        (TITLE, (0.05, -0.50, 0.26), (0.0, 0.11, 0.004), 6.3),
+                        (END, (0.10, -0.74, 0.40), (0.02, 0.13, 0.0), 8.0)):
         C.key(camD, "location", f, c)
         C.key(aimD, "location", f, a)
         C.key(camD.data.dof, "aperture_fstop", f, fs)
@@ -215,6 +215,7 @@ def main():
                     (-7.25, -4.05, 0), color="#F1E4CC", strength=1.0, align_x="LEFT", halo=0.0, plate=0.85)
     TitleScene.fade(label, t(0.6), t(1.4), peak=0.9)
     ts.band(t(1.2), END)
+    ts.band(D0, END + 30, strength=0.9)        # extra shade: captions over the bright manuscript
 
     def card(name, body, font, size, y, f_in, f_out, color="#F1E4CC", strength=1.1, spacing=1.0, x=0.0,
              align="CENTER", halo=0.45):
@@ -236,12 +237,14 @@ def main():
     add_counter(pg, turn_start, turn_start + turn_span, 0, 18, "{n} / 18 хуудас")
     card("D_Article", "Эхний зүйл: улсын дээд эрх — жинхэнэ ардад", F["serif_regular"], 0.5, -3.55,
          D0 + int(0.9 * fps), TITLE - 2)
-    big = ts.text("D_Title", "БҮГД НАЙРАМДАХ МОНГОЛ АРД УЛС", F["serif"], 0.78, (0, -2.75, 0),
-                  color="#F1E4CC", strength=1.25, spacing=1.08)
+    # title sits in the dark upper third (over the background, not the bright page)
+    big = ts.text("D_Title", "БҮГД НАЙРАМДАХ МОНГОЛ АРД УЛС", F["serif"], 0.78, (0, 3.35, 0),
+                  color="#F1E4CC", strength=1.25, spacing=1.08, halo=0.5)
     TitleScene.fade(big, TITLE + int(0.3 * fps), TITLE + int(1.3 * fps))
-    yr = ts.text("D_Year", "1924", F["serif_regular"], 0.48, (0, -3.6, 0), color="#C8A56C", strength=1.1)
+    yr = ts.text("D_Year", "1924", F["serif_regular"], 0.56, (0, 2.45, 0), color="#D9B46A", strength=1.25,
+                 halo=0.5)
     TitleScene.fade(yr, TITLE + int(0.9 * fps), TITLE + int(1.8 * fps))
-    rule = ts.rule("D_Rule", 5.5, (0, -3.18, 0), color="#782E2F", thickness=0.03, strength=1.4)
+    rule = ts.rule("D_Rule", 5.5, (0, 2.9, 0), color="#782E2F", thickness=0.03, strength=1.4)
     TitleScene.fade(rule, TITLE + int(0.6 * fps), TITLE + int(1.2 * fps))
     C.key(rule, "scale", TITLE + int(0.6 * fps), (0.0, 1, 1))
     C.key(rule, "scale", TITLE + int(1.8 * fps), (5.5, 1, 1))

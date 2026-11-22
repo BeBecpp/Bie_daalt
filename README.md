@@ -5,14 +5,30 @@ built as a **scripted Blender (bpy) + FFmpeg** project. The director pack (story
 fact-check, pipeline, art direction) lives in [`docs/director_pack/`](docs/director_pack/).
 Project rules are in [`CLAUDE.md`](CLAUDE.md).
 
-## Status
+## Status (final production)
 
-| Stage | State |
+| Item | State |
 |---|---|
-| Scene 01 POC: 8 s, 3D manuscript, moving camera, dynamic light/shadows, dust, clock reaching 16:17, Mongolian title | **Done**: rendered at 960×540 and reviewed frame by frame (see `docs/QC_CHECKLIST.md`) |
-| Scene 01 at full VO length (~17 s) and 1080p | Ready to render: `DURATION=17 scripts/render_scene.sh 01 final` |
-| Scenes 02–08 | Planned in [`docs/SCENE_PLAN.md`](docs/SCENE_PLAN.md); not built yet |
-| Narration WAVs, music, SRT, final assembly | Not started |
+| Narration, all 8 scenes | **Done**: ElevenLabs Eleven v4, voice «Bilguun» (approved), `audio/narration/scene01–08.mp3`, verified with ffprobe, 169.97 s total, aligned with `scripts/narration.py` |
+| Scene builders 01–08 + end credits | **Done**, timed to the measured narration (`config/final_cut.env`) |
+| Original score + sound design | **Done**: `scripts/make_score.py` (score), SFX synthesised in `scripts/assemble_final.py` |
+| Native 1080p / 24 fps render | **Running**: `scripts/render_final.sh` (resumable). Check progress with `scripts/render_progress.sh` |
+| Final film | Assembled by `scripts/assemble_final.py` once every scene is complete, then checked by `scripts/qc_final.sh` |
+
+## Final pipeline (one command per step)
+
+```bash
+python3 scripts/narration.py              # verify + align the 8 narration files
+python3 scripts/make_score.py 250         # original score -> audio/music/score_ambient.wav
+scripts/render_final.sh                   # native 1920x1080, 24 unique fps, all scenes (resumable)
+scripts/render_progress.sh                # frames done per scene
+python3 scripts/assemble_final.py         # -> output/final/16_17_Republic_Day_FINAL_1080p.mp4
+scripts/qc_final.sh                       # -> output/final/QC_REPORT.txt + QC_contact_sheet.png
+```
+
+On a laptop with a GPU, `ENGINE=eevee scripts/render_final.sh` is much faster. On this build server
+(4-core CPU, no GPU) the lean Cycles profile (`--fast-final`: 4 samples + OpenImageDenoise) takes
+about 8–30 s per 1080p frame.
 
 ## Requirements (all free / open source)
 - **Blender 4.2–4.5 LTS** (tested with 4.5.16), https://www.blender.org/
